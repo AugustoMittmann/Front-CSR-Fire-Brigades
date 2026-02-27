@@ -1,10 +1,10 @@
 import styles from "./footer.module.css";
 import Image from "next/image";
-import HelpButton from "../home/components/helpButton";
-import Link from "next/link";
 import Icons from "../constants/icons";
 
 export default function Footer() {
+    const currentYear = new Date().getFullYear();
+    
     return (
       <footer className={styles.footer}>
         <div className={styles.imageContainer}>
@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
           
           <div className={styles.copyright}>
-            © 2025 RNBV - Rede Nacional de Brigadas Voluntárias
+            © {currentYear} RNBV - Rede Nacional de Brigadas Voluntárias
           </div>
         </div>
       </footer>
