@@ -4,25 +4,24 @@ import Icons from "../constants/icons";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
-    
+
     return (
       <footer className={styles.footer}>
         <div className={styles.imageContainer}>
-          <Image 
-            src="/images/juntos_somos_mais_fortes.jpg" 
+          <Image
+            src="/images/juntos_somos_mais_fortes.jpg"
             alt="Juntos somos mais fortes - RNBV"
             fill
-            style={{ objectFit: 'cover' }}
           />
         </div>
-        
+
         <div className={styles.contentContainer}>
           <p className={styles.description}>
-            A expressão "Juntos somos mais fortes" é perfeita para a realidade das 
-            Brigadas Voluntárias e para demonstrar a nossa força é preciso que a 
+            A expressão "Juntos somos mais fortes" é perfeita para a realidade das
+            Brigadas Voluntárias e para demonstrar a nossa força é preciso que a
             sua organização faça parte deste esforço.
           </p>
-          
+
           <div className={styles.linksContainer}>
             <a href="https://www.instagram.com/brigadasvoluntarias/" target="_blank" rel="noopener noreferrer" className={styles.link}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="#bc6c25">
@@ -30,7 +29,7 @@ export default function Footer() {
               </svg>
               Acesse o nosso Instagram
             </a>
-            
+
             <a href="/FAQPage" className={styles.link}>
               <Image
                   src={Icons.ajuda.value}
@@ -41,7 +40,7 @@ export default function Footer() {
               Dúvidas Frequentes
             </a>
           </div>
-          
+
           <div className={styles.copyright}>
             © {currentYear} RNBV - Rede Nacional de Brigadas Voluntárias
           </div>

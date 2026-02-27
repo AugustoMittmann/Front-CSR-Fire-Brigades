@@ -74,13 +74,12 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   font-weight: 700;
-  color: white;
+  color: black;
   margin: 0;
   bottom: 1rem;
   left: 1rem;
   right: 5rem;
   z-index: 2;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .description {
