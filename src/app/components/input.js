@@ -31,7 +31,7 @@ export default function Input({label, placeholder, height, type = "text", disabl
     const errorMessageForType = {
       email: "E-mail inválido",
       text: "Valor inválido",
-      phone: "Insira um número de telefone no seguinte formato: (99) 99999-9999"
+      phone: "Insira um número de telefone válido"
     }
     const isInvalid = !isValidValueForType[type](inputRef.current.value, event);
     setHasError(isInvalid);
