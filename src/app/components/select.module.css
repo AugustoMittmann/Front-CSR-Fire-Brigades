@@ -4,6 +4,7 @@
   padding: 0.5rem;
   color: #263A1E;
   background-color: #FFFFFF;
+  width: 100%;
 }
 
 .select:focus {
@@ -16,6 +17,7 @@
   color: #263A1E;
   border: 0.1rem solid #757575;
   padding: 0.5rem;
+  width: 100%;
 }
 
 .error {
@@ -23,6 +25,7 @@
   border: 0.1rem solid #D92D20;
   padding: 0.5rem;
   color-scheme: light;
+  width: 100%;
 }
 
 .error:focus {

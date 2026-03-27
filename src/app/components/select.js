@@ -3,10 +3,13 @@
 import styles from "./select.module.css"
 import Label from "./label";
 
-export default function Select({label, disabled, placeholder, width, items = [], name, setSelectedKey}) {
+export default function Select({label, disabled, placeholder, width, items = [], name, setSelectedKey, hasError, errorMessage}) {
   const getStyle = () => {
     if (disabled) {
       return styles.disabled;
+    }
+    if (hasError) {
+      return styles.error;
     }
     return styles.select;
   };
@@ -20,7 +23,6 @@ export default function Select({label, disabled, placeholder, width, items = [],
       }
       <div>
         <select
-          style={{width}}
           className={getStyle()}
           placeholder={placeholder}
           disabled={disabled}
@@ -36,6 +38,9 @@ export default function Select({label, disabled, placeholder, width, items = [],
           })}
         </select>
       </div>
+      {hasError && errorMessage &&
+        <span className={styles.errormessage}>{errorMessage}</span>
+      }
     </div>
   );
 }
