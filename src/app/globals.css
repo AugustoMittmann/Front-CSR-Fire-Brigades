@@ -1,11 +1,16 @@
 :root {
-  --background: #f6f6f6;
   --foreground: #000;
+  --white: #fff;
+  --green-200: #e0f1d9;
+  --green-400: #84c868;
+  --gray-200: #f6f6f6;
+  --gray-400: #757575;
+  --orange-400: #c45c13;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #f6f6f6;
+    --gray-200: #f6f6f6;
     --foreground: #000;
   }
 }
@@ -18,8 +23,7 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--gray-200);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-bottom: 7.5rem;
@@ -65,12 +69,21 @@ a {
   flex-direction: column;
 }
 
+.flex-item {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
 .align-center {
   align-items: center;
 }
 
 .justify-center {
   justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
 }
 
 .gap-1 {
@@ -81,6 +94,79 @@ a {
   gap: 0.5rem;
 }
 
+.gap-3 {
+  gap: 0.75rem;
+}
+
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-orange-400 {
+  color: var(--orange-400);
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.bg-green-200 {
+  background-color: var(--green-200);
+}
+
+.bg-gray-200 {
+  background-color: var(--gray-200);
+}
+
+.bg-white {
+  background-color: var(--white);
+}
+
+.bc-green-400 {
+  border-color: var(--green-400);
+}
+
+.rounded {
+  border-radius: 10px;
+}
+
+.rounded-sm {
+  border-radius: 6px;
+}
+
+.text-sm {
+  font-size: 14px;
+}
+
+.border-solid-1 {
+  border-width: 1px;
+  border-style: solid;
 }
