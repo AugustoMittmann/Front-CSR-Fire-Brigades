@@ -8,11 +8,11 @@ export const ButtonStyle = {
   standard: styles.standard
 }
 
-export default function Button({placeholder = "", style = ButtonStyle.emphasized, disabled = false, firstImage = null, secondImage = null, onPress = () => {}, type = "button"}) {
+export default function Button({className = "", placeholder = "", style = "emphasized", disabled = false, firstImage = null, secondImage = null, onPress = () => {}, type = "button"}) {
   const getStyle = () => {
-    let activeStyle = `${styles.button} ${style}`;
+    let activeStyle = `${styles.button} ${ButtonStyle[style]} ${className}`;
     if (disabled) {
-      return `${activeStyle} ${style === ButtonStyle.emphasized ? styles.disabledEmphasized : styles.disabledStandard}`;
+      return `${activeStyle} ${style === "emphasized" ? styles.disabledEmphasized : styles.disabledStandard}`;
     }
     return `${activeStyle}`;
   }
