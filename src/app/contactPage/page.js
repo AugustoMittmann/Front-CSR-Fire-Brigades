@@ -5,7 +5,7 @@ import Button, { ButtonStyle } from "../components/button";
 import Input from "../components/input";
 import Select from "../components/select";
 import StateCodes from "../constants/estados";
-import MotivoContato from "../constants/motivoContato";
+import ContactReasons from "../constants/contactReasons";
 import "./css.css";
 import CitiesByState from "../constants/cidadesPorEstado";
 import { useRouter } from "next/navigation";
@@ -108,7 +108,7 @@ function Contact() {
               <Select label="Cidade" items={CitiesByState[state] || []} placeholder="Selecione a sua cidade" width="100%" name="city"/>
             </div>
 
-            <Select label="Motivo do Contato" placeholder="Selecione o motivo do contato" width="100%" items={MotivoContato} name="contactReason"/>
+            <Select label="Motivo do Contato" placeholder="Selecione o motivo do contato" width="100%" items={ContactReasons} name="contactReason"/>
 
             <Select label="Deseja falar com uma brigada específica? Se sim, selecione a brigada desejada." placeholder="Selecione uma brigada" width="100%" name="brigade" />
 

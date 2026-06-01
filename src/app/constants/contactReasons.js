@@ -1,13 +1,13 @@
-export const MotivoContatoChave = {
+export const ContactReasonKey = {
   VOLUNTARIO: "VOLUNTARIO",
   DOACAO: "DOACAO",
   MENSAGEM: "MENSAGEM"
 };
 
-const MotivoContato = [
-  {key: MotivoContatoChave.VOLUNTARIO, value: "Quero me voluntariar"},
-  {key: MotivoContatoChave.DOACAO, value: "Quero fazer uma doação"},
-  {key: MotivoContatoChave.MENSAGEM, value: "Quero mandar uma mensagem"}
+const ContactReasons = [
+  {key: ContactReasonKey.VOLUNTARIO, value: "Quero me voluntariar"},
+  {key: ContactReasonKey.DOACAO, value: "Quero fazer uma doação"},
+  {key: ContactReasonKey.MENSAGEM, value: "Quero mandar uma mensagem"}
 ];
 
-export default MotivoContato;
+export default ContactReasons;
