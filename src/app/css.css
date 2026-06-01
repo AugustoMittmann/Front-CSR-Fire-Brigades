@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+/* Montserrat is loaded once via next/font in src/app/layout.js — do not
+   re-import it from Google Fonts here. */
 
 body {
     min-width: 300px;
