@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import styles from "./campaignsCarousel.module.css";
 
 export default function CampaignsCarousel() {
@@ -60,10 +61,13 @@ export default function CampaignsCarousel() {
         {visibleCampaigns.map((campaign, index) => (
           <div key={`${campaign.id}-${index}`} className={styles.campaignCard}>
             <div className={styles.imageContainer}>
-              <img 
-                src={campaign.image} 
+              <Image
+                src={campaign.image}
                 alt={campaign.title}
                 className={styles.campaignImage}
+                width={400}
+                height={250}
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
             <div className={styles.cardContent}>

@@ -1,3 +1,8 @@
+// Server-side prototype. Do NOT import this from a client component — it ships
+// the @googlemaps/google-maps-services-js SDK and reads a server-only API key.
+// When this is productionised, expose it via a Route Handler
+// (e.g. src/app/api/geocode/route.js) so the key never reaches the browser.
+import "server-only";
 import { Client } from '@googlemaps/google-maps-services-js';
 
 const testAddressSAP = "Avenida SAP, 188 - Cristo Rei, São Leopoldo - RS, 93022-718";
@@ -8,7 +13,7 @@ export async function convertToLatLng(address = testAddressSAP) {
   const brazilBounds = {northeast, southwest};
   const payload = {
     params: {
-      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+      key: process.env.GOOGLE_MAPS_GEOCODING_KEY,
       address,
       bounds: brazilBounds
     }

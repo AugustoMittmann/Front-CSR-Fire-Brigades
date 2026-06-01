@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Icons from "../constants/icons";
 import Button from "./button";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
 export default function SaveModal({}) {
   const modal = useRef(null);
+  const titleId = useId();
   const router = useRouter();
+  const previouslyFocused = useRef(null);
 
 
   useEffect(() => {
@@ -24,9 +26,61 @@ export default function SaveModal({}) {
     modal.current.animate(appearingFromBottom, modalTiming);
   }, [modal])
 
+  // Capture the element that opened the modal so we can restore focus on close,
+  // move focus into the dialog on open, and let ESC route to the same close
+  // handler. The focus trap below is a minimal implementation — it cycles
+  // focus across all focusables inside the dialog.
+  useEffect(() => {
+    previouslyFocused.current =
+      typeof document !== "undefined" ? document.activeElement : null;
+
+    const closeAndReturn = () => {
+      document.body.style.transition = "opacity 0.5s";
+      document.body.style.opacity = "1";
+      router.push("/");
+    };
+
+    const focusables = () =>
+      modal.current?.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, select, textarea'
+      ) ?? [];
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        closeAndReturn();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const list = focusables();
+      if (list.length === 0) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    const initial = focusables()[0];
+    initial?.focus();
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previouslyFocused.current?.focus?.();
+    };
+  }, [router]);
+
   return (
     <div
       ref={modal}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
       style={{
         position: "fixed",
         bottom: "0",
@@ -44,19 +98,23 @@ export default function SaveModal({}) {
         justifyContent: "center"
       }}
     >
-      <span style={{
-        color: "#39542D",
-        fontWeight: "bolder",
-        fontSize: "1rem",
-        width: "40%",
-        font: "normal normal bold 24px/29px 'Montserrat'",
-        fontFamily: "'Montserrat', sans-serif",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      }}>
+      <h2
+        id={titleId}
+        style={{
+          color: "#39542D",
+          fontWeight: "bolder",
+          fontSize: "1rem",
+          width: "40%",
+          font: "normal normal bold 24px/29px 'Montserrat'",
+          fontFamily: "'Montserrat', sans-serif",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: 0,
+        }}
+      >
         Seu contato foi enviado!
-      </span>
+      </h2>
       <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <Image
             src={Icons.checkbranco.value}

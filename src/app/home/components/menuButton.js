@@ -4,13 +4,13 @@ import styles from "./menuButton.module.css";
 
 export default function MenuButton() {
   return (
-    <div className={styles.borderRadius}>
+    <button type="button" className={styles.borderRadius} aria-label="Abrir menu">
       <Image
         src={Icons.menu.value}
-        alt={Icons.menu.alt}
+        alt=""
         height={20}
         width={20}
       />
-    </div>
+    </button>
   );
 }
