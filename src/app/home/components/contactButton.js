@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Contact() {
   return (
-    <Link href="/viewBrigadesPage">
+    <Link href="/contactPage">
         <div className={styles.button}>
             <div className={styles.icon}>
                 <Image
