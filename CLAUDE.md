@@ -4,70 +4,116 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Next.js 15 App Router application for "Conexão Brigada" — a platform to find and register volunteer fire brigades in Brazil. All UI text is in Portuguese. No backend exists yet; data is static/hardcoded.
+This is a Next.js 15 application for "Conexão Brigada" (Fire Brigade Connection), a platform to help users find and register volunteer fire brigades in Brazil. The app uses the App Router architecture and includes Google Maps integration for visualizing brigade locations.
 
 ## Development Commands
 
 ```bash
-npm run dev      # Dev server on http://localhost:3000
-npm run build    # Production build
-npm run lint     # ESLint via next lint
+# Start development server (runs on http://localhost:3000)
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linter
+npm run lint
 ```
 
-There is no test framework configured in this project.
+Package manager: `npm` (per `package-lock.json`). There is no `engines` field pinning the Node version.
 
 ## Architecture
 
-### Rendering & Provider Chain
+### Next.js App Router Structure
 
-The root layout (`src/app/layout.js`) renders Header and Footer on every page, and wraps children in `<Providers>`. The `<Providers>` component (`src/app/home/providers.js`) is a `"use client"` boundary that sets up Auth0Provider. This means:
+The application uses Next.js 15 App Router with the following structure:
 
-- The root layout is a **Server Component** (Header/Footer are server-rendered)
-- All page content below `<Providers>` has access to Auth0 context
-- `src/app/page.js` simply re-exports the `Home` component from `src/app/home/page.js`
+- `src/app/page.js` - Root route that renders the home page
+- `src/app/layout.js` - Root layout with Auth0Provider wrapper and global fonts
+- `src/app/home/` - Main home page with brigade search and news feed
+- `src/app/brigadesPage/` - Brigade profile pages
+- `src/app/viewBrigadesPage/` - Brigade list/map viewer
+- `src/app/viewCampaignsPage/` - Campaign list/viewer
+- `src/app/contactPage/` - Contact form
+- `src/app/FAQPage/` - FAQ page
+- `src/app/frequentQuestionsPage/` - Alternative FAQ-style page (separate route from `FAQPage/`)
+- `src/app/protectPage/` - Auth0-protected route example
+- `src/app/test_components/` - Testing/prototype components
 
-### Auth0 Setup
+### Path Aliases
 
-- Config lives in `src/app/auth_config.json` (domain + clientId), read via `src/app/config.js` → `getConfig()`
-- Auth0Provider's `redirect_uri` is set dynamically to `window.location.href`
-- Protected routes use `withAuthenticationRequired` HOC (example in `src/app/protectPage/`)
+`jsconfig.json` defines `@/*` → `./src/*`. Use `@/app/...` for imports across the codebase rather than relative paths — this matches existing usage.
 
-### Google Maps
+### Authentication
 
-- `@vis.gl/react-google-maps` for map rendering (`src/app/components/googleMap.js`)
-- `@googlemaps/google-maps-services-js` for geocoding (`src/app/test_components/prototype_location_converter.js`)
-- Requires `NEXT_PUBLIC_MAPS_API_KEY` and `NEXT_PUBLIC_MAP_ID` in `.env.local`
+The app uses Auth0 for authentication:
 
-### Icon System
+- Auth0Provider is configured in `src/app/home/providers.js` and wraps the entire app in `layout.js`
+- Auth0 config is stored in `src/app/auth_config.json` (domain, clientId) — note this file is **committed** with real dev-tenant values, so editing them changes authentication behavior
+- Protected routes use `withAuthenticationRequired` HOC (see `src/app/protectPage/page.js`)
+- Pages must use `"use client"` when accessing Auth0 hooks
 
-All SVG icons are imported statically in `src/app/constants/icons.js` as a central registry (object with `{value, alt}` entries). Components access icons via `Icons.iconName.value` for the source and `Icons.iconName.alt` for alt text, used with Next.js `<Image>`.
+### Google Maps Integration
 
-### Component Patterns
+- Uses `@vis.gl/react-google-maps` for map display
+- GoogleMap component in `src/app/components/googleMap.js`
+- API key stored in `.env.local` as `NEXT_PUBLIC_MAPS_API_KEY`
+- Map ID stored as `NEXT_PUBLIC_MAP_ID`
+- Geocoding utility in `src/app/test_components/prototype_location_converter.js` uses `@googlemaps/google-maps-services-js` and reads a separate key from `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` — reuse this var rather than introducing a new one
 
-- **Shared components** in `src/app/components/` — form primitives (`Input`, `Select`, `Button`, `Label`), `Table`/`TableRow`, `Loading`, `SaveModal`
-- **Page-specific components** colocated in `src/app/<pageName>/components/`
-- `Button` exports a `ButtonStyle` enum for variant styling
-- Form pages (e.g., `contactPage`) use `document.getElementsByName()` for form data collection — no form library
+### Shared Components
 
-### Constants & Validators
+Reusable components are in `src/app/components/`:
+- `header.js` - Main navigation header
+- `footer.js` - Footer component
+- `googleMap.js` - Google Maps integration
+- `button.js`, `input.js`, `label.js`, `select.js` - Form components
+- `table.js`, `tableRow.js` - Table components
+- `loading.js` - Loading spinner
+- `saveModal.js` - Save confirmation modal
 
-- `src/app/constants/` — Brazilian states (`estados.js`), cities by state (`cidadesPorEstado.js`), FAQ questions, contact reasons, icons
-- `src/app/validators/` — email, phone, text validators
-- `src/app/formatters/` — phone number formatter
+### Page-Specific Components
+
+Components specific to a page are colocated in that page's directory (e.g., `src/app/home/components/`).
+
+### Utilities
+
+- `src/app/validators/` - Input validators (email, phone, text)
+- `src/app/formatters/` - Data formatters (phone formatter)
+- `src/app/constants/` - Constant data (Brazilian states, cities, icons, FAQ questions)
 
 ### Styling
 
-- CSS Modules (`.module.css` colocated with components) for component styles
 - Global styles in `src/app/globals.css`
-- Some pages also use plain `.css` imports (e.g., `contactPage/css.css`)
-- Many pages use extensive inline styles with hardcoded values
-- Fonts: Montserrat (weight 500, via `next/font`), Poppins (via Google Fonts `<link>` in layout)
-- Brand colors: `#39542D` (dark green — primary text), `#DDA15E` (amber — accents), white
+- CSS Modules for component-specific styles (`.module.css` files colocated with components)
+- Primary font: Montserrat (weight 500), loaded via Next.js font optimization
+- Secondary font: Poppins, loaded from Google Fonts
 
 ## Important Conventions
 
-- Almost all pages are client components (`"use client"`) due to hooks and Auth0 context
-- Import alias: `@/*` maps to `./src/*` (configured in `jsconfig.json`)
-- Navigation uses Next.js `Link` and `useRouter` from `next/navigation`
-- `prop-types` is available but lightly used
-- `reactjs-popup` is used for popup/modal UI (e.g., filter popups)
+### Client Components
+
+Most pages are client components (`"use client"`) — primarily because they consume Auth0 hooks. When adding a new page that uses `useAuth0`, hooks, or browser APIs, mark it `"use client"`.
+
+### Environment Variables
+
+Required environment variables in `.env.local`:
+- `NEXT_PUBLIC_MAPS_API_KEY` - Google Maps API key (for `@vis.gl/react-google-maps` display)
+- `NEXT_PUBLIC_MAP_ID` - Google Maps Map ID
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` - Geocoding API key used by `prototype_location_converter.js`
+
+Note: `.env.local` contains actual credentials and should not be committed, but currently exists in the repository.
+
+### Testing
+
+No test framework is configured — `package.json` declares no Jest, Vitest, Playwright, or Cypress, and there are no test files. Before adding tests, ask the user which framework to adopt.
+
+### Brazilian Context
+
+The application is designed for Brazilian users:
+- UI text is in Portuguese
+- Address validation uses Brazilian format
+- State/city data is Brazilian-specific (see `src/app/constants/cidadesPorEstado.js` and `estados.js`)
+- Google Maps bounds are set to Brazil in geocoding utilities
