@@ -1,13 +1,11 @@
-'use client'
+"use client";
 
 import styles from "./label.module.css";
 
-export default function Label({text}) {
+export default function Label({ text, htmlFor }) {
   return (
-    <span
-      className={styles.label}
-    >
+    <label className={styles.label} htmlFor={htmlFor}>
       {text}
-    </span>
+    </label>
   );
 }

@@ -25,25 +25,25 @@
 
 .disabledEmphasized {
   border-radius: 0.5rem;
-  background-color: #7575751A;
-  color: #39542D80;
+  /* WCAG: opaque colors with verified contrast (#5C5C5C on #E5E5E5 ≈ 5.0:1). */
+  background-color: #E5E5E5;
+  color: #5C5C5C;
   border: 0;
 }
 
 .disabledEmphasized:hover {
-  cursor: initial;
+  cursor: not-allowed;
 }
 
 .disabledStandard {
   border-radius: 0.5rem;
   background-color: #FFFFFF;
-  color: #39542D80;
-  border-color: #39542D80;
-  border: 0.5;
+  color: #5C5C5C;
+  border: 0.1rem solid #5C5C5C;
 }
 
 .disabledStandard:hover {
-  cursor: initial;
+  cursor: not-allowed;
 }
 
 .buttonLabel {

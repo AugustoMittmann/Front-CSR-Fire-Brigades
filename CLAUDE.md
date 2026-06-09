@@ -22,6 +22,8 @@ npm start
 npm run lint
 ```
 
+Package manager: `npm` (per `package-lock.json`). There is no `engines` field pinning the Node version.
+
 ## Architecture
 
 ### Next.js App Router Structure
@@ -33,19 +35,25 @@ The application uses Next.js 15 App Router with the following structure:
 - `src/app/home/` - Main home page with brigade search and news feed
 - `src/app/brigadesPage/` - Brigade profile pages
 - `src/app/viewBrigadesPage/` - Brigade list/map viewer
+- `src/app/viewCampaignsPage/` - Campaign list/viewer
 - `src/app/contactPage/` - Contact form
 - `src/app/FAQPage/` - FAQ page
+- `src/app/frequentQuestionsPage/` - Alternative FAQ-style page (separate route from `FAQPage/`)
 - `src/app/protectPage/` - Auth0-protected route example
 - `src/app/test_components/` - Testing/prototype components
+
+### Path Aliases
+
+`jsconfig.json` defines `@/*` → `./src/*`. Use `@/app/...` for imports across the codebase rather than relative paths — this matches existing usage.
 
 ### Authentication
 
 The app uses Auth0 for authentication:
 
 - Auth0Provider is configured in `src/app/home/providers.js` and wraps the entire app in `layout.js`
-- Auth0 config is stored in `src/app/auth_config.json` (domain, clientId)
+- Auth0 config is stored in `src/app/auth_config.json` (domain, clientId) — note this file is **committed** with real dev-tenant values, so editing them changes authentication behavior
 - Protected routes use `withAuthenticationRequired` HOC (see `src/app/protectPage/page.js`)
-- All pages must use `"use client"` directive when accessing Auth0 hooks
+- Pages must use `"use client"` when accessing Auth0 hooks
 
 ### Google Maps Integration
 
@@ -53,7 +61,7 @@ The app uses Auth0 for authentication:
 - GoogleMap component in `src/app/components/googleMap.js`
 - API key stored in `.env.local` as `NEXT_PUBLIC_MAPS_API_KEY`
 - Map ID stored as `NEXT_PUBLIC_MAP_ID`
-- Location geocoding utility in `src/app/test_components/prototype_location_converter.js` using `@googlemaps/google-maps-services-js`
+- Geocoding utility in `src/app/test_components/prototype_location_converter.js` uses `@googlemaps/google-maps-services-js` and reads a separate key from `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` — reuse this var rather than introducing a new one
 
 ### Shared Components
 
@@ -87,25 +95,20 @@ Components specific to a page are colocated in that page's directory (e.g., `src
 
 ### Client Components
 
-Most pages use `"use client"` directive because they:
-- Use React hooks (useState, useEffect)
-- Access Auth0 authentication context
-- Handle browser APIs (geolocation, window)
+Most pages are client components (`"use client"`) — primarily because they consume Auth0 hooks. When adding a new page that uses `useAuth0`, hooks, or browser APIs, mark it `"use client"`.
 
 ### Environment Variables
 
 Required environment variables in `.env.local`:
-- `NEXT_PUBLIC_MAPS_API_KEY` - Google Maps API key
+- `NEXT_PUBLIC_MAPS_API_KEY` - Google Maps API key (for `@vis.gl/react-google-maps` display)
 - `NEXT_PUBLIC_MAP_ID` - Google Maps Map ID
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` - Geocoding API key used by `prototype_location_converter.js`
 
-Note: The `.env.local` file contains actual credentials and should not be committed, but currently exists in the repository.
+Note: `.env.local` contains actual credentials and should not be committed, but currently exists in the repository.
 
-### Routing
+### Testing
 
-All pages follow Next.js App Router conventions:
-- Each route is a folder with a `page.js` file
-- Layout files (`layout.js`) are used for shared UI
-- Client components must use `"use client"` directive at the top
+No test framework is configured — `package.json` declares no Jest, Vitest, Playwright, or Cypress, and there are no test files. Before adding tests, ask the user which framework to adopt.
 
 ### Brazilian Context
 

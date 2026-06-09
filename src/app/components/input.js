@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import styles from "./input.module.css";
 import Label from "./label";
 import PhoneValidator from "../validators/phoneValidator";
@@ -11,6 +11,9 @@ export default function Input({label, placeholder, height, type = "text", disabl
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Valor inválido");
   const inputRef = useRef(null);
+  const reactId = useId();
+  const inputId = name ? `input-${name}` : `input-${reactId}`;
+  const errorId = `${inputId}-error`;
 
   const getStyle = () => {
     if (disabled) {
@@ -31,7 +34,7 @@ export default function Input({label, placeholder, height, type = "text", disabl
     const errorMessageForType = {
       email: "E-mail inválido",
       text: "Valor inválido",
-      phone: "Insira um número de telefone no seguinte formato: (99) 99999-9999"
+      phone: "Insira um número de telefone válido"
     }
     const isInvalid = !isValidValueForType[type](inputRef.current.value, event);
     setHasError(isInvalid);
@@ -44,11 +47,12 @@ export default function Input({label, placeholder, height, type = "text", disabl
     <>
       {label &&
         <div className={styles.labelpadding}>
-          <Label text={label}/>
+          <Label text={label} htmlFor={inputId}/>
         </div>
       }
       <div>
         <input
+          id={inputId}
           ref={inputRef}
           className={getStyle()}
           placeholder={placeholder}
@@ -56,12 +60,16 @@ export default function Input({label, placeholder, height, type = "text", disabl
           onChange={(event) => validateInput(event)}
           type={type}
           name={name}
+          aria-invalid={hasError || undefined}
+          aria-describedby={hasError ? errorId : undefined}
           style={{height}}
         />
         <br />
       </div>
       {hasError &&
         <span
+          id={errorId}
+          role="alert"
           className={styles.errormessage}
         >
             {errorMessage}
