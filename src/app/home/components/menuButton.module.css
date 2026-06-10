@@ -1,9 +1,134 @@
-.borderRadius {
-    border-radius: 50%;
-    background-color: #E0F1D9;
-    width: 35px;
-    height: 35px;
+.iconButton {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--green-200);
+    box-shadow: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.iconButton:focus {
+    outline: none;
+}
+
+.iconButton:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+}
+
+.rotated {
+    transform: rotate(90deg);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    padding: 1.25rem 1.25rem 2rem;
+    background-color: var(--green-600);
+    color: var(--white);
+    text-align: left;
+    overflow-y: auto;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.overlayOpen {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 0.35s ease, visibility 0s linear 0s;
+}
+
+.overlayHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.closeButton:focus {
+    outline: none;
+}
+
+.closeButton:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.overlayTitle {
+    margin: 0 0 1.25rem;
+    color: var(--white);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.menuList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.menuItem {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.menuItem:last-child {
+    border-bottom: none;
+}
+
+.menuLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    color: var(--white);
+    text-decoration: none;
+}
+
+.menuIcon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--green-200);
+}
+
+.menuLabel {
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 400;
 }

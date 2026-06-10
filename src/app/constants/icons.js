@@ -23,6 +23,11 @@ import voltar from "../icons/voltar.svg"
 import logo from "../icons/logo.svg"
 import loading from "../icons/loading.svg"
 import mail from "../icons/mail.svg"
+import mailverde from "../icons/mailverde.svg"
+import ajudaverde from "../icons/ajudaverde.svg"
+import livro from "../icons/livro.svg"
+import jornal from "../icons/jornal.svg"
+import fechar from "../icons/fechar.svg"
 
 const Icons = {
   adicionar: {
@@ -124,6 +129,26 @@ const Icons = {
   mail: {
     value: mail,
     alt: "Mail"
+  },
+  mailverde: {
+    value: mailverde,
+    alt: "Mail"
+  },
+  ajudaverde: {
+    value: ajudaverde,
+    alt: "Ajuda"
+  },
+  livro: {
+    value: livro,
+    alt: "Livro"
+  },
+  jornal: {
+    value: jornal,
+    alt: "Jornal"
+  },
+  fechar: {
+    value: fechar,
+    alt: "Fechar"
   }
 };
 

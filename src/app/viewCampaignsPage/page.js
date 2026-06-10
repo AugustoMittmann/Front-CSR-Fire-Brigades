@@ -47,8 +47,8 @@ export default function ArtigosPage() {
     <div className={styles.pageWrapper}>
       <main className={styles.mainContent}>
         <div className={styles.titleContainer}>
-          <h1 className={styles.pageTitle}>Artigos e Notícias</h1>
-          <button className={styles.filterButton} aria-label="Filtrar artigos">
+          <h1 className={styles.pageTitle}>Campanhas</h1>
+          <button className={styles.filterButton} aria-label="Filtrar campanhas">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="#39542D"/>
             </svg>
