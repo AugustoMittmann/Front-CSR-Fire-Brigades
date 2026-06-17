@@ -9,7 +9,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 1.5rem 1.25rem;
 }
 
@@ -18,7 +18,21 @@
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 1.5rem;
-  color: #39542D;
+  color: #263A1E;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.subtitle {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #263A1E;
 }
 
 .paragraph {
@@ -26,5 +40,145 @@
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   line-height: 1.5;
+  color: #263A1E;
+}
+
+.objetivosList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.objetivoCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #C9DDB1;
+  color: #263A1E;
+}
+
+.objetivoIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: #263A1E;
+}
+
+.objetivoText {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #263A1E;
+}
+
+.videoPlaceholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem;
+  background-color: #c4c4c4;
+  background-image: linear-gradient(135deg, #b9b9b9 0%, #d6d6d6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.playButton {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.brigadasGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem 0.5rem;
+}
+
+.brigadaCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.brigadaLogo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #e6e6e6;
+  border: 1px solid #cfcfcf;
+}
+
+.brigadaName {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: #263A1E;
+}
+
+@media (max-width: 480px) {
+  .brigadasGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.diretorCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.diretoriaList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.diretorPhoto {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.5rem;
+  background-color: #d2d2d2;
+  background-image: linear-gradient(135deg, #c4c4c4 0%, #dcdcdc 100%);
+}
+
+.diretorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.diretorName {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #263A1E;
+}
+
+.diretorRole {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
   color: #263A1E;
 }
