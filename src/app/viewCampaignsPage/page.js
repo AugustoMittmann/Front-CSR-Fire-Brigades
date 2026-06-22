@@ -31,7 +31,7 @@ const mergePublications = ({ campaigns, news, articles }) => {
     items.push(makeArticle(a, cat));
   });
 
-  return items.toSorted(byMostRecent());;
+  return items.toSorted(byMostRecent());
 };
 
 const makeCampaign = (c) => {

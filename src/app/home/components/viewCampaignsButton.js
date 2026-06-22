@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function ViewCampaigns() {
   return (
     <Link href="/viewCampaignsPage">
-        <div className={styles.button}>          
+        <div className={styles.button}>
             <div className={styles.content}
                  style={{marginLeft: "21px"}}>
                 Conheça Nossas Campanhas
