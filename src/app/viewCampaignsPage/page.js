@@ -24,44 +24,54 @@ const PLACEHOLDER_IMAGE = "/placeholder-brigade.svg";
 const mergePublications = ({ campaigns, news, articles }) => {
   const items = [];
 
-  for (const c of campaigns) {
-    items.push({
-      id: `campaign-${c.id}`,
-      sortKey: c.publishedAt || c.createdAt,
-      category: "Campanha",
-      categoryColor: CATEGORY_COLORS.Campanha,
-      title: c.title,
-      description: c.description ?? "",
-      image: c.imageUrl || PLACEHOLDER_IMAGE,
-    });
-  }
-  for (const n of news) {
-    items.push({
-      id: `news-${n.id}`,
-      sortKey: n.publishedAt || n.createdAt,
-      category: "Notícia",
-      categoryColor: CATEGORY_COLORS["Notícia"],
-      title: n.title,
-      description: n.summary || n.subtitle || "",
-      image: n.imageUrl || PLACEHOLDER_IMAGE,
-    });
-  }
-  for (const a of articles) {
+  campaigns.forEach(campaign => items.push(makeCampaign(campaign)));
+  news.forEach(n => items.push(makeNews(n)));
+  articles.forEach(a => {
     const cat = a.category === "Boas Práticas" ? "Boas Práticas" : "Artigo";
-    items.push({
-      id: `article-${a.id}`,
-      sortKey: a.publishedAt || a.createdAt,
-      category: cat,
-      categoryColor: CATEGORY_COLORS[cat],
-      title: a.title,
-      description: a.summary || a.subtitle || "",
-      image: a.imageUrl || PLACEHOLDER_IMAGE,
-    });
-  }
+    items.push(makeArticle(a, cat));
+  });
 
-  // Mais recentes primeiro.
-  items.sort((a, b) => (b.sortKey ?? "").localeCompare(a.sortKey ?? ""));
-  return items;
+  return items.toSorted(byMostRecent());
+};
+
+const makeCampaign = (c) => {
+  return {
+    id: `campaign-${c.id}`,
+    sortKey: c.publishedAt || c.createdAt,
+    category: "Campanha",
+    categoryColor: CATEGORY_COLORS.Campanha,
+    title: c.title,
+    description: c.description ?? "",
+    image: c.imageUrl || PLACEHOLDER_IMAGE,
+  };
+};
+
+const makeNews = (n) => {
+  return {
+    id: `news-${n.id}`,
+    sortKey: n.publishedAt || n.createdAt,
+    category: "Notícia",
+    categoryColor: CATEGORY_COLORS["Notícia"],
+    title: n.title,
+    description: n.summary || n.subtitle || "",
+    image: n.imageUrl || PLACEHOLDER_IMAGE,
+  };
+};
+
+const makeArticle = (a, cat) => {
+  return {
+    id: `article-${a.id}`,
+    sortKey: a.publishedAt || a.createdAt,
+    category: cat,
+    categoryColor: CATEGORY_COLORS[cat],
+    title: a.title,
+    description: a.summary || a.subtitle || "",
+    image: a.imageUrl || PLACEHOLDER_IMAGE,
+  };
+};
+
+const byMostRecent = () => {
+  return (a, b) => (b.sortKey ?? "").localeCompare(a.sortKey ?? "");
 };
 
 export default function ArtigosPage() {

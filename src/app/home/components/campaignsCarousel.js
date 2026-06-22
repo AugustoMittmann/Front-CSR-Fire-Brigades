@@ -39,13 +39,13 @@ export default function CampaignsCarousel() {
     );
   };
 
-  const getVisibleCampaigns = () => {
-    const visible = [];
-    for (let i = 0; i < 3; i++) {
-      visible.push(campaigns[(currentIndex + i) % campaigns.length]);
-    }
-    return visible;
-  };
+  const VISIBLE_COUNT = 3;
+
+  const campaignAtOffset = (offset) =>
+    campaigns[(currentIndex + offset) % campaigns.length];
+
+  const getVisibleCampaigns = () =>
+    Array.from({ length: VISIBLE_COUNT }, (_, i) => campaignAtOffset(i));
 
   const visibleCampaigns = getVisibleCampaigns();
 
