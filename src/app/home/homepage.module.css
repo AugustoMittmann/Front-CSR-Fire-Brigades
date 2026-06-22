@@ -21,7 +21,7 @@
 
 .brigadasTitleWhite {
     font-weight: bold;
-    font-size: 14pt;
+    font-size: 18pt;
     margin-bottom: 2.5rem; 
     color: #ffffff;
     text-align: center;
@@ -36,7 +36,12 @@
 }
 
 .section {
-    padding: 1.5rem 1.5rem;
+    padding: 1.5rem;
+    color: #263A1E;
+}
+
+.campaignsSection {
+    padding: 1.5rem 1.5rem 0 1.5rem;
     color: #263A1E;
 }
 

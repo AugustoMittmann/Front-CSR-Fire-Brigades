@@ -4,8 +4,8 @@
   justify-content: center;
   color: #39542D;
   background-color: transparent;
-  border: 2px solid #39542D;
-  border-radius: 25px;
+  border: 1px solid #39542D;
+  border-radius: 10px;
   margin-top: 1.5rem;
   height: 50px;
   max-width: 100%;

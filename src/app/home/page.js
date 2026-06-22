@@ -21,7 +21,7 @@ function Home() {
           <LatestNews/>
         </div>
       </section>
-      <section className={styles.section}>
+      <section className={styles.campaignsSection}>
         <div className={styles.brigadasTitle}>
           Descubra Nossas Campanhas
         </div>
