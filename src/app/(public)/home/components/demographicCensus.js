@@ -1,17 +1,15 @@
-import Link from "next/link";
 import styles from "./demographicCensus.module.css";
 
-// The /viewCensusPage destination doesn't exist yet, so the button is rendered
-// disabled and aria-disabled. Re-enable by wrapping the inner element in a
-// <Link href="/viewCensusPage"> once the route ships.
+const CENSUS_FORM_URL = "https://form.jotform.com/211837780172054";
+
 export default function DemographicCensus() {
   return (
-      <Link href="/viewCensusPage">
+      <a href={CENSUS_FORM_URL} target="_blank" rel="noopener noreferrer">
         <div className={styles.button}>
             <div className={styles.content}>
                 Preencher o Censo Demográfico
             </div>
         </div>
-    </Link>
+    </a>
   );
 }
