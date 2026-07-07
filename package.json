@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@9.15.0",
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
@@ -13,20 +13,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.4.0",
-    "@googlemaps/google-maps-services-js": "^3.4.2",
-    "@supabase/supabase-js": "^2.110.1",
-    "@vis.gl/react-google-maps": "^1.5.3",
-    "eslint-config-next": "^15.5.18",
-    "next": "^15.5.18",
-    "prop-types": "^15.8.1",
-    "quill": "^2.0.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-quill-new": "^3.8.3",
-    "reactjs-popup": "^2.0.6"
+    "@auth0/auth0-react": "2.19.0",
+    "@googlemaps/google-maps-services-js": "3.4.2",
+    "@supabase/supabase-js": "2.110.1",
+    "@vis.gl/react-google-maps": "1.8.3",
+    "eslint-config-next": "15.5.19",
+    "next": "15.5.19",
+    "prop-types": "15.8.1",
+    "quill": "2.0.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-quill-new": "3.8.3",
+    "reactjs-popup": "2.0.6"
   },
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "file-loader": "6.2.0"
   }
 }
