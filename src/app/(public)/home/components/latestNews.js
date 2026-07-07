@@ -1,15 +1,15 @@
-import Icons from "../../constants/icons";
+import Icons from "../../../constants/icons";
 import Image from "next/image";
-import styles from "./viewCampaigns.module.css";
+import styles from "./latestNews.module.css";
 import Link from "next/link";
 
-export default function ViewCampaigns() {
+export default function LatestNews() {
   return (
     <Link href="/viewCampaignsPage">
         <div className={styles.button}>
             <div className={styles.content}
                  style={{marginLeft: "21px"}}>
-                Conheça Nossas Campanhas
+                Acompanhe as Últimas Notícias
             </div>
             <div className={styles.icon}>
             <Image

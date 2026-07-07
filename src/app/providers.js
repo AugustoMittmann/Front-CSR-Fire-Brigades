@@ -2,7 +2,7 @@
 
 import { Auth0Provider } from "@auth0/auth0-react";
 import { useRouter } from "next/navigation";
-import { getConfig } from "./../config";
+import { getConfig } from "./config";
 
 export function Providers({ children }) {
   const config = getConfig();
@@ -18,12 +18,16 @@ export function Providers({ children }) {
     router.replace(appState?.returnTo || window.location.pathname);
   };
 
+  // `audience` is only forwarded when configured (see getConfig). When present
+  // the SDK issues an access token for the backend API instead of just an ID
+  // token — admin write calls depend on this.
   return (
     <Auth0Provider
       domain={config.domain}
       clientId={config.clientId}
       authorizationParams={{
         redirect_uri: redirectUri,
+        ...(config.audience ? { audience: config.audience } : null),
       }}
       onRedirectCallback={onRedirectCallback}
     >

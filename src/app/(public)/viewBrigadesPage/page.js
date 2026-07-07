@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useState } from "react";
-import Button from "../components/button";
-import GoogleMap from "../components/googleMap";
+import Button from "../../components/button";
+import GoogleMap from "../../components/googleMap";
 import FilterButton from "../home/components/filterButton";
 import { api } from "@/lib/api";
 

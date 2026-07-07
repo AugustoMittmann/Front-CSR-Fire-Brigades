@@ -2,9 +2,9 @@
 import FAQ from '../FAQPage/components/FAQ'
 import styles from "./style.module.css";
 import SearchBar from '../home/components/searchbar';
-import Button from '../components/button';
+import Button from '../../components/button';
 import Image from 'next/image'
-import Table from '../components/table';
+import Table from '../../components/table';
 
 const columns = ["Item", "Qtd.", "Valor estimado"];
 const rows = [

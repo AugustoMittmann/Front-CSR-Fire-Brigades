@@ -3,7 +3,7 @@
 import React from "react";
 import LogoutButton from "./logoutButton";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import Loading from "../components/loading";
+import Loading from "../../components/loading";
 
 const ProtectedPage = () => {
   return (

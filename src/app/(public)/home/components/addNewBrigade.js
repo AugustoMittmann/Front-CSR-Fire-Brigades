@@ -1,22 +1,22 @@
-import Icons from "../../constants/icons";
+import Icons from "../../../constants/icons";
 import Image from "next/image";
-import styles from "./contactButton.module.css";
+import styles from "./viewBrigadesButton.module.css";
 import Link from "next/link";
 
-export default function Contact() {
+export default function AddNewBrigade() {
   return (
     <Link href="/contactPage">
         <div className={styles.button}>
             <div className={styles.icon}>
                 <Image
-                    src={Icons.mail.value}
-                    alt={Icons.mail.alt}
+                    src={Icons.maisbranco.value}
+                    alt={Icons.maisbranco.alt}
                     height={21}
                     width={21}
                     />
             </div>
             <div className={styles.content}>
-                Entrar em contato
+                Cadastrar Nova Brigada
             </div>
             <div className={styles.icon}>
             <Image

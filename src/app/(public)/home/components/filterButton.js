@@ -1,6 +1,6 @@
 'use client';
 
-import Icons from "../../constants/icons";
+import Icons from "../../../constants/icons";
 import Image from "next/image";
 import styles from "./filterButton.module.css";
 import { useState } from 'react'

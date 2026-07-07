@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Icons from "../constants/icons";
+import Icons from "../../constants/icons";
 
 function Brigades() {
   const [brigadeName, setBrigadeName] = useState("Nome da Brigada");

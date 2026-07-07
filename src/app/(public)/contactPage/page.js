@@ -1,16 +1,16 @@
 'use client';
 
 import { useState } from "react";
-import Button, { ButtonStyle } from "../components/button";
-import Input from "../components/input";
-import Select from "../components/select";
-import StateCodes from "../constants/estados";
-import ContactReasons from "../constants/contactReasons";
+import Button, { ButtonStyle } from "../../components/button";
+import Input from "../../components/input";
+import Select from "../../components/select";
+import StateCodes from "../../constants/estados";
+import ContactReasons from "../../constants/contactReasons";
 import "./css.css";
-import CitiesByState from "../constants/cidadesPorEstado";
+import CitiesByState from "../../constants/cidadesPorEstado";
 import { useRouter } from "next/navigation";
-import SaveModal from "../components/saveModal";
-import EmailValidator from "../validators/emailValidator";
+import SaveModal from "../../components/saveModal";
+import EmailValidator from "../../validators/emailValidator";
 
 function Contact() {
   const [state, setState] = useState(StateCodes[0].key);

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Icons from "../../constants/icons";
+import Icons from "../../../constants/icons";
 import styles from "./menuButton.module.css";
 
 const MENU_ITEMS = [
