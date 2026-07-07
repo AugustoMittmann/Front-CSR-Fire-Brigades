@@ -30,17 +30,18 @@ Package manager: `npm` (per `package-lock.json`). There is no `engines` field pi
 
 The application uses Next.js 15 App Router with the following structure:
 
-- `src/app/page.js` - Root route that renders the home page
-- `src/app/layout.js` - Root layout with Auth0Provider wrapper and global fonts
-- `src/app/home/` - Main home page with brigade search and news feed
-- `src/app/brigadesPage/` - Brigade profile pages
-- `src/app/viewBrigadesPage/` - Brigade list/map viewer
-- `src/app/viewCampaignsPage/` - Campaign list/viewer
-- `src/app/contactPage/` - Contact form
-- `src/app/FAQPage/` - FAQ page
-- `src/app/frequentQuestionsPage/` - Alternative FAQ-style page (separate route from `FAQPage/`)
-- `src/app/protectPage/` - Auth0-protected route example
-- `src/app/test_components/` - Testing/prototype components
+- `src/app/page.js` - Root route (lives under `(public)/`) that renders the home page
+- `src/app/layout.js` - Root layout: `<html>` / `<body>` + Auth0 `<Providers>`. Header/Footer are rendered by the `(public)` group, not here.
+- `src/app/providers.js` - Auth0Provider wired for both public and admin routes. Forwards `audience` from `NEXT_PUBLIC_AUTH0_AUDIENCE` so admin writes can request an access token.
+- `src/app/(public)/layout.js` - Renders `<Header/>` + `<Footer/>` for every public page. `(public)` is a route group and does not appear in URLs — `/home`, `/viewBrigadesPage`, `/FAQPage`, etc. keep their paths.
+- `src/app/(public)/home/` - Main home page with brigade search and news feed
+- `src/app/(public)/brigadesPage/` - Brigade profile pages
+- `src/app/(public)/viewBrigadesPage/` - Brigade list/map viewer
+- `src/app/(public)/viewCampaignsPage/` - Campaign list/viewer
+- `src/app/(public)/contactPage/` - Contact form
+- `src/app/(public)/FAQPage/` - FAQ page
+- `src/app/(public)/protectPage/` - Auth0-protected route example
+- `src/app/admin/` - Admin panel (login, redefinir-senha, brigadas, artigos, faqs, usuarios). Gated by `RequireAdmin`.
 
 ### Path Aliases
 
@@ -50,10 +51,11 @@ The application uses Next.js 15 App Router with the following structure:
 
 The app uses Auth0 for authentication:
 
-- Auth0Provider is configured in `src/app/home/providers.js` and wraps the entire app in `layout.js`
-- Auth0 config is stored in `src/app/auth_config.json` (domain, clientId) — note this file is **committed** with real dev-tenant values, so editing them changes authentication behavior
-- Protected routes use `withAuthenticationRequired` HOC (see `src/app/protectPage/page.js`)
-- Pages must use `"use client"` when accessing Auth0 hooks
+- Auth0Provider is configured in `src/app/providers.js` and wraps `<html><body>` in `src/app/layout.js` so both public and admin routes have Auth0 context.
+- Auth0 config is loaded from env vars via `src/app/config.js` (`NEXT_PUBLIC_AUTH0_DOMAIN`, `NEXT_PUBLIC_AUTH0_CLIENT_ID`, `NEXT_PUBLIC_AUTH0_AUDIENCE`).
+- Protected routes use `withAuthenticationRequired` HOC (see `src/app/(public)/protectPage/page.js`). Admin routes use `RequireAdmin` (`src/app/admin/components/requireAdmin.js`), which layers an Auth0 role-claim check on top.
+- Pages must use `"use client"` when accessing Auth0 hooks.
+- Admin panel writes to `/api/*` require an access token — `src/app/admin/layout.js` registers a token provider (`src/lib/apiAuth.js`) that reads a token via `getAccessTokenSilently` for the audience configured above. The backend is expected to verify Auth0 tokens; see `Back-CSR-Fire-Brigades/src/middleware/auth.ts`.
 
 ### Google Maps Integration
 
@@ -80,9 +82,12 @@ Components specific to a page are colocated in that page's directory (e.g., `src
 
 ### Utilities
 
-- `src/app/validators/` - Input validators (email, phone, text)
+- `src/app/validators/` - Input validators (email, phone, text, url, number, date)
 - `src/app/formatters/` - Data formatters (phone formatter)
 - `src/app/constants/` - Constant data (Brazilian states, cities, icons, FAQ questions)
+- `src/lib/api.js` - API client (public GETs + authenticated writes with per-resource helpers). Reads a bearer token via `src/lib/apiAuth.js`.
+- `src/lib/apiAuth.js` - Token provider bridge between Auth0's React context and the plain-JS API client.
+- `src/lib/supabaseStorage.js` - Public-bucket image upload helper (dynamically imports `@supabase/supabase-js`).
 
 ### Styling
 
@@ -100,9 +105,17 @@ Most pages are client components (`"use client"`) — primarily because they con
 ### Environment Variables
 
 Required environment variables in `.env.local`:
+- `NEXT_PUBLIC_API_BASE_URL` - Base URL of `Back-CSR-Fire-Brigades` (default `http://localhost:4000`)
 - `NEXT_PUBLIC_MAPS_API_KEY` - Google Maps API key (for `@vis.gl/react-google-maps` display)
 - `NEXT_PUBLIC_MAP_ID` - Google Maps Map ID
 - `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` - Geocoding API key used by `prototype_location_converter.js`
+- `NEXT_PUBLIC_AUTH0_DOMAIN` - Auth0 tenant domain (e.g. `dev-xxx.us.auth0.com`)
+- `NEXT_PUBLIC_AUTH0_CLIENT_ID` - Auth0 SPA client id
+- `NEXT_PUBLIC_AUTH0_AUDIENCE` - Auth0 API audience — required for admin writes so the SDK issues an access token accepted by the backend
+- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL, only needed for the admin image-upload flow (Storage)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon key, only needed for the admin image-upload flow
+
+Additional Auth0 setup for admin gating: add an Auth0 Action that puts the user's roles on the ID/access token under the namespaced claim `https://conexaobrigada.com/roles` (values `admin` / `super_admin`). Both the frontend `RequireAdmin` and the backend admin middleware are expected to read this claim.
 
 Note: `.env.local` contains actual credentials and should not be committed, but currently exists in the repository.
 
