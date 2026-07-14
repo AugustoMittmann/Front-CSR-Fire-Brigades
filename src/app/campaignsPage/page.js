@@ -1,5 +1,5 @@
 import SearchBar from "@/app/home/components/searchbar";
-import Button from "../components/button";
+import RedirectButton from "../home/components/redirectButton";
 
 function CampaignsPage() {
     return (
@@ -12,8 +12,8 @@ function CampaignsPage() {
             </div>
             <SearchBar placeholder="Pesquisar Campanha" />
             <div>
-                <Button className="w-full" placeholder="Visualizar Brigadas"></Button>
-                <Button className="w-full" placeholder="Ver Artigos & Notícias"></Button>
+                <RedirectButton icon="localizacaobranco" label="Visualizar Brigadas" variation="orange" />
+                <RedirectButton icon="maisbranco" label="Ver Artigos & Notícias" variation="orange" />
             </div>
         </section>
     );
