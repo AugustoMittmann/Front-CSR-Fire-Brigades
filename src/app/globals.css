@@ -4,11 +4,14 @@
   --green-200: #e0f1d9;
   --green-400: #84c868;
   --green-600: #39542d;
+  --green-700: #2d4a3e;
   --green-800: #263a1e;
   --gray-200: #f6f6f6;
   --gray-400: #757575;
+  --gray-900: #1a1a1a;
   --orange-400: #c45c13;
   --orange-500: #bc6c26;
+  --beige-100: #f5f0e8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -126,6 +129,10 @@ a {
 
 .p-10 {
   padding: 10px;
+}
+
+.py-5 {
+  padding: 1.25rem 0;
 }
 
 .w-full {
