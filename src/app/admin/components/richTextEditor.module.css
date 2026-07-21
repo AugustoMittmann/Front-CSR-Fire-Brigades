@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/*
+ * Quill ships its own stylesheet (imported alongside the component) — we
+ * only tweak the container so it matches the surrounding form controls.
+ */
+.editor :global(.ql-toolbar) {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: 0.1rem solid #757575;
+  border-bottom: none;
+  background-color: var(--white);
+}
+
+.editor :global(.ql-container) {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border: 0.1rem solid #757575;
+  background-color: var(--white);
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  min-height: 220px;
+}
+
+.editor :global(.ql-editor) {
+  min-height: 220px;
+  color: #263A1E;
+}
+
+.error :global(.ql-toolbar),
+.error :global(.ql-container) {
+  border-color: #D92D20;
+}

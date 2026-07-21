@@ -1,0 +1,20 @@
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background-color: var(--gray-200);
+}
+
+.main {
+  padding: 1.5rem 2rem;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .main {
+    padding: 1rem;
+  }
+}

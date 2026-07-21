@@ -1,7 +1,10 @@
 export default class EmailValidator {
+  static #emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
   static make() {
     return (email) => {
-      return email.includes("@") && (email.endsWith(".com") || email.endsWith(".com.br"));
-    }
+      return this.#emailRegex.test(String(email ?? "").trim());
+    };
   }
 }
