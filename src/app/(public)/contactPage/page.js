@@ -11,6 +11,7 @@ import CitiesByState from "../../constants/cidadesPorEstado";
 import { useRouter } from "next/navigation";
 import SaveModal from "../../components/saveModal";
 import EmailValidator from "../../validators/emailValidator";
+import PhoneValidator from "../../validators/phoneValidator";
 
 function Contact() {
   const [state, setState] = useState(StateCodes[0].key);
@@ -38,6 +39,8 @@ function Contact() {
     const phone = getValue("phone");
     if (!phone.trim()) {
       newErrors.phone = "Campo obrigatório";
+    } else if (!PhoneValidator.isValid(phone)) {
+      newErrors.phone = "Telefone inválido";
     }
 
     const message = getValue("message");
