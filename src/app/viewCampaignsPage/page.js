@@ -86,9 +86,9 @@ const VIEW_CONFIG = {
     sources: ["campaigns"],
   },
   noticias: {
-    title: "Notícias",
-    filterLabel: "Filtrar notícias",
-    sources: ["news"],
+    title: "Artigos e Notícias",
+    filterLabel: "Filtrar artigos e notícias",
+    sources: ["news", "articles"],
   },
   all: {
     title: "Publicações",
