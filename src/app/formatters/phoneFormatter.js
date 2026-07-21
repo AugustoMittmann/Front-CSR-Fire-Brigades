@@ -1,31 +1,24 @@
 export default class PhoneFormatter {
-  static format(phone, inputType) {
-    if (phone.length === 2) {
-      return this.#addDDDtoPhone(phone);
+  static format(phone) {
+    let digits = String(phone ?? "").replace(/\D/g, "");
+
+    if (digits.startsWith("0")) {
+      digits = digits.slice(1);
     }
-    if (phone.length === 9 && inputType !== "deleteContentBackward") {
-      return this.#addDashToPhone(phone);
+    if (digits.length > 11 && digits.startsWith("55")) {
+      digits = digits.slice(2);
     }
-    if (phone.length === 15) {
-      return this.#replaceDashPositionForCellphone(phone);
-    }
-    return this.#limitCharacters(phone);
-  }
+    digits = digits.slice(0, 11);
 
-  static #replaceDashPositionForCellphone(phone) {
-    return phone.replace(/-(\d)/, "$1-");
-  }
+    if (digits.length === 0) return "";
+    if (digits.length <= 2) return `(${digits}`;
 
-  static #addDashToPhone(phone) {
-    return phone.replace(/(\(\d{2}\))\s(\d{4})/, "$1 $2-");
-  }
+    const ddd = digits.slice(0, 2);
+    const local = digits.slice(2);
+    if (local.length <= 4) return `(${ddd}) ${local}`;
 
-  static #addDDDtoPhone(phone) {
-    return phone.replace(/(\d{2})/, "($1) ");
-  }
-
-  static #limitCharacters(phone) {
-    const limit = 15;
-    return phone.slice(0, limit);
+    const head = local.slice(0, local.length - 4);
+    const tail = local.slice(-4);
+    return `(${ddd}) ${head}-${tail}`;
   }
 }
