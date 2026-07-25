@@ -1,13 +1,32 @@
 'use client'
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./searchbar.module.css";
 import Label from "@/app/components/label";
 import Image from "next/image";
 import Icons from "@/app/constants/icons";
 
-export default function SearchBar({label, placeholder, height, type = "text", disabled = false}) {
+export default function SearchBar({
+  label,
+  placeholder,
+  height,
+  type = "text",
+  disabled = false,
+  onSearch,
+  debounceMs = 300,
+  initialValue = "",
+}) {
   const inputRef = useRef(null);
+  const [value, setValue] = useState(initialValue);
+  const debounced = useDebounced(value, debounceMs);
+
+  const lastSent = useRef(null);
+  useEffect(() => {
+    if (!onSearch) return;
+    if (lastSent.current === debounced) return;
+    lastSent.current = debounced;
+    onSearch(debounced);
+  }, [debounced, onSearch]);
 
   const getStyle = () => {
     if (disabled) {
@@ -15,6 +34,8 @@ export default function SearchBar({label, placeholder, height, type = "text", di
     }
     return styles.input;
   };
+
+  const controlled = Boolean(onSearch);
 
   return (
     <>
@@ -31,6 +52,9 @@ export default function SearchBar({label, placeholder, height, type = "text", di
           disabled={disabled}
           type={type}
           style={{height}}
+          {...(controlled
+            ? { value, onChange: (e) => setValue(e.target.value) }
+            : {})}
         />
         <i className={styles.icon}>
           <Image
@@ -42,4 +66,13 @@ export default function SearchBar({label, placeholder, height, type = "text", di
       </div>
     </>
   );
+}
+
+export function useDebounced(value, ms) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(value), ms);
+    return () => clearTimeout(t);
+  }, [value, ms]);
+  return debounced;
 }
