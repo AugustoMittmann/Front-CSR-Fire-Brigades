@@ -1,4 +1,4 @@
-import RedirectButton from "./components/redirectButton";
+import RedirectButton from "../../components/redirectButton";
 import styles from "./homepage.module.css";
 import DemographicCensus from "./components/demographicCensus";
 import CampaignsCarousel from "./components/campaignsCarousel";

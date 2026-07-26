@@ -1,4 +1,4 @@
-import Icons from "../../constants/icons";
+import Icons from "../constants/icons";
 import Image from "next/image";
 import styles from "./redirectButton.module.css";
 import Link from "next/link";

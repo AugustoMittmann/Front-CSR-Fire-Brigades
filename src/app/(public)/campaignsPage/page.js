@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import SearchBar from "@/app/home/components/searchbar";
-import RedirectButton from "../home/components/redirectButton";
-import CampaignList from "../components/campaignList";
+import SearchBar from "../../components/searchbar";
+import RedirectButton from "../../components/redirectButton";
+import CampaignList from "../../components/campaignList";
 import { api } from "@/lib/api";
 
 function CampaignsPage() {
