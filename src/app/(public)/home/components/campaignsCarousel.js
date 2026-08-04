@@ -29,8 +29,6 @@ export default function CampaignsCarousel() {
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  // Só relocamos o foco após uma interação real do usuário — nunca no mount nem
-  // ao carregar os dados.
   const hasInteracted = useRef(false);
 
   useEffect(() => {
@@ -50,7 +48,6 @@ export default function CampaignsCarousel() {
         setCurrentIndex(0);
       } catch (err) {
         if (err.name === "AbortError") return;
-        // eslint-disable-next-line no-console
         console.error("[CampaignsCarousel] load failed", err);
         setError("Não foi possível carregar as campanhas.");
       } finally {
@@ -62,8 +59,6 @@ export default function CampaignsCarousel() {
   }, []);
 
   const maxIndex = Math.max(0, campaigns.length - VISIBLE_COUNT);
-  // Clamp defensivo: usado tanto na transformação quanto nos estados disabled,
-  // para que nunca discordem se o índice ficar defasado.
   const idx = Math.min(currentIndex, maxIndex);
   const atStart = idx === 0;
   const atEnd = idx >= maxIndex;
@@ -78,9 +73,6 @@ export default function CampaignsCarousel() {
     setCurrentIndex((i) => Math.min(maxIndex, i + 1));
   };
 
-  // Quando o botão focado fica desabilitado ao chegar num extremo, o navegador
-  // solta o foco no <body>. Movemos o foco para o botão oposto ainda ativo
-  // (WCAG 2.4.3). Só age após interação e apenas se o foco realmente se perdeu.
   useEffect(() => {
     if (!hasInteracted.current) return;
     const active = document.activeElement;
@@ -102,7 +94,6 @@ export default function CampaignsCarousel() {
       aria-roledescription="carrossel"
       aria-label="Campanhas"
     >
-      {/* Região viva persistente para estados assíncronos (leitores de tela). */}
       <div className={styles.srOnly} role="status" aria-live="polite">
         {loading ? "Carregando campanhas..." : ""}
       </div>

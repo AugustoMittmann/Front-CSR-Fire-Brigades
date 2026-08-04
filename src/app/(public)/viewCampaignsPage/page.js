@@ -6,8 +6,6 @@ import ArticleCard from "./components/articleCard";
 import styles from "./artigosPage.module.css";
 import { api } from "@/lib/api";
 
-// Cores do "category badge" — antes hardcoded no mock; agora aplicadas
-// programaticamente conforme a categoria de cada item retornado pela API.
 const CATEGORY_COLORS = {
   Campanha: "#1E88E5",
   "Boas Práticas": "#7CB342",
@@ -19,11 +17,6 @@ const PLACEHOLDER_IMAGE = "/placeholder-brigade.svg";
 
 const LOADING_TEXT = "Carregando publicações...";
 
-/**
- * Junta campanhas + notícias + artigos numa única lista para a UI. As fontes
- * não buscadas no modo atual chegam como arrays vazios, então o mesmo caminho
- * de merge/ordenação é reutilizado em todos os modos.
- */
 const mergePublications = ({ campaigns = [], news = [], articles = [] }) => {
   const items = [];
 
@@ -77,8 +70,6 @@ const byMostRecent = () => {
   return (a, b) => (b.sortKey ?? "").localeCompare(a.sortKey ?? "");
 };
 
-// Fonte única da verdade por modo: título, rótulo do filtro e quais fontes
-// buscar. Adicionar um modo novo é uma entrada só, sem espalhar condicionais.
 const VIEW_CONFIG = {
   campanhas: {
     title: "Campanhas",
@@ -100,8 +91,6 @@ const VIEW_CONFIG = {
 const normalizeTipo = (raw) =>
   raw === "campanhas" || raw === "noticias" ? raw : "all";
 
-// Busca só as fontes do modo atual e devolve as demais como arrays vazios,
-// mantendo a chamada de mergePublications uniforme.
 const loadSources = async (sources, signal) => {
   const result = { campaigns: [], news: [], articles: [] };
   await Promise.all(
