@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function LearnMoreButton() {
   return (
-    <Link href="/viewCampaignsPage">
+    <Link href="/viewCampaignsPage?tipo=campanhas">
       <div className={styles.button}>
         <div className={styles.icon}>
           <Image

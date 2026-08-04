@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function LatestNews() {
   return (
-    <Link href="/viewCampaignsPage">
+    <Link href="/viewCampaignsPage?tipo=noticias">
         <div className={styles.button}>
             <div className={styles.content}
                  style={{marginLeft: "21px"}}>
