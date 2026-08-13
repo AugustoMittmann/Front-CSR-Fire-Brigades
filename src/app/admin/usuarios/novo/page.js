@@ -4,14 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
 import Input from "../../../components/input";
-import Select from "../../../components/select";
 import FormShell, { formStyles } from "../../components/formShell";
-
-const ROLES = [
-  { key: "user", value: "Usuário" },
-  { key: "admin", value: "Admin" },
-  { key: "super_admin", value: "Super Admin" },
-];
 
 // Creating a user provisions a Supabase Auth account server-side via the
 // admin API and returns a validated profile row. Password minimum length is
@@ -22,7 +15,6 @@ export default function AdminUserNovoPage() {
     email: "",
     password: "",
     display_name: "",
-    role: "admin",
   });
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState({ kind: "idle" });
@@ -50,7 +42,6 @@ export default function AdminUserNovoPage() {
       const body = {
         email: form.email.trim(),
         password: form.password,
-        role: form.role,
       };
       if (form.display_name.trim()) body.display_name = form.display_name.trim();
       await api.profiles.create(body);
@@ -100,14 +91,6 @@ export default function AdminUserNovoPage() {
           required
           value={form.password}
           onChange={setField("password")}
-        />
-      </div>
-      <div>
-        <Select
-          label="Papel"
-          name="role"
-          items={ROLES}
-          setSelectedKey={(k) => setForm((prev) => ({ ...prev, role: k }))}
         />
       </div>
     </FormShell>

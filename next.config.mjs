@@ -11,10 +11,26 @@ const nextConfig = {
     ],
   },
 
-  // Baseline response headers. CSP is intentionally omitted here — it interacts
-  // with Google Maps, Auth0, and Google Fonts and warrants a dedicated review
-  // before being added.
+  // Baseline response headers. A Content-Security-Policy is shipped in
+  // Report-Only mode first: it interacts with Google Maps, Auth0, Google Fonts
+  // and Supabase, so it is tuned via violation reports before being enforced.
+  // To enforce: rename the header key to "Content-Security-Policy" once the
+  // browser console shows no legitimate violations (Next's inline bootstrap may
+  // require a nonce/hash under a strict script-src).
   async headers() {
+    const csp = [
+      "default-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "frame-ancestors 'self'",
+      "script-src 'self' 'unsafe-inline' https://*.auth0.com https://maps.googleapis.com",
+      "connect-src 'self' https://*.auth0.com https://maps.googleapis.com https://*.supabase.co",
+      "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://maps.gstatic.com https://*.googleapis.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "frame-src https://*.auth0.com https://*.google.com",
+    ].join("; ");
+
     return [
       {
         source: "/:path*",
@@ -27,6 +43,7 @@ const nextConfig = {
             value: "max-age=63072000; includeSubDomains; preload",
           },
           { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "Content-Security-Policy-Report-Only", value: csp },
         ],
       },
     ];
