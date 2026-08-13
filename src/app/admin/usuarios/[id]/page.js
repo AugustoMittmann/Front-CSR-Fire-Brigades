@@ -4,18 +4,11 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
 import Input from "../../../components/input";
-import Select from "../../../components/select";
 import FormShell from "../../components/formShell";
 
-const ROLES = [
-  { key: "user", value: "Usuário" },
-  { key: "admin", value: "Admin" },
-  { key: "super_admin", value: "Super Admin" },
-];
-
-// Editing an existing user updates display_name, role, and is_validated. The
-// backend has no endpoint to change email or password from here — those are
-// handled by the user themselves via Auth0's password reset.
+// Editing an existing user updates display_name and is_validated. The backend
+// has no endpoint to change email or password from here — those are handled by
+// the user themselves via Auth0's password reset.
 export default function AdminUserEditPage() {
   const params = useParams();
   const router = useRouter();
@@ -23,7 +16,6 @@ export default function AdminUserEditPage() {
   const [state, setState] = useState({ kind: "loading" });
   const [form, setForm] = useState({
     display_name: "",
-    role: "user",
     is_validated: false,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -39,7 +31,6 @@ export default function AdminUserEditPage() {
         const profile = res?.data ?? {};
         setForm({
           display_name: profile.displayName ?? "",
-          role: profile.role ?? "user",
           is_validated: !!profile.isValidated,
         });
         setState({ kind: "ready", email: profile.email });
@@ -75,7 +66,6 @@ export default function AdminUserEditPage() {
     try {
       await api.profiles.update(id, {
         display_name: form.display_name || null,
-        role: form.role,
         is_validated: form.is_validated,
       });
       router.push("/admin/usuarios");
@@ -106,14 +96,6 @@ export default function AdminUserEditPage() {
           onChange={(e) =>
             setForm((prev) => ({ ...prev, display_name: e.target.value }))
           }
-        />
-      </div>
-      <div>
-        <Select
-          label="Papel"
-          name="role"
-          items={ROLES}
-          setSelectedKey={(k) => setForm((prev) => ({ ...prev, role: k }))}
         />
       </div>
       <div>
