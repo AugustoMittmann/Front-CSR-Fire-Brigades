@@ -3,6 +3,7 @@ import styles from "./homepage.module.css";
 import DemographicCensus from "./components/demographicCensus";
 import CampaignsCarousel from "./components/campaignsCarousel";
 import LearnMoreButton from "./components/learnMoreButton";
+import HomeStats from "./components/homeStats";
 
 function Home() {
   return (
@@ -44,20 +45,7 @@ function Home() {
         <div>
           Encontre as brigadas mais próximas de você ou cadastre a sua brigada.
         </div>    
-        <div className={styles.statsContainer}>
-          <div className={styles.statBlock}>
-            <div className={styles.statNumber}>15</div>
-            <div className={styles.statLabel}>Organizações</div>
-          </div>
-          <div className={styles.statBlock}>
-            <div className={styles.statNumber}>932</div>
-            <div className={styles.statLabel}>Brigadistas</div>
-          </div>
-          <div className={styles.statBlock}>
-            <div className={styles.statNumber}>8</div>
-            <div className={styles.statLabel}>Estados pelo Brasil</div>
-          </div>
-        </div>
+        <HomeStats />
 
         <div>
           <RedirectButton

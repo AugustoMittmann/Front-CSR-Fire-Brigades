@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import ArticleCard from "./components/articleCard";
 import styles from "./artigosPage.module.css";
 import { api } from "@/lib/api";
 
-// Cores do "category badge" — antes hardcoded no mock; agora aplicadas
-// programaticamente conforme a categoria de cada item retornado pela API.
 const CATEGORY_COLORS = {
   Campanha: "#1E88E5",
   "Boas Práticas": "#7CB342",
@@ -16,12 +15,9 @@ const CATEGORY_COLORS = {
 
 const PLACEHOLDER_IMAGE = "/placeholder-brigade.svg";
 
-/**
- * Junta campanhas + notícias + artigos numa única lista para a UI atual,
- * que mostra todos os tipos de publicação juntos. Cada origem vira uma
- * "category" coerente com o badge.
- */
-const mergePublications = ({ campaigns, news, articles }) => {
+const LOADING_TEXT = "Carregando publicações...";
+
+const mergePublications = ({ campaigns = [], news = [], articles = [] }) => {
   const items = [];
 
   campaigns.forEach(campaign => items.push(makeCampaign(campaign)));
@@ -74,7 +70,42 @@ const byMostRecent = () => {
   return (a, b) => (b.sortKey ?? "").localeCompare(a.sortKey ?? "");
 };
 
-export default function ArtigosPage() {
+const VIEW_CONFIG = {
+  campanhas: {
+    title: "Campanhas",
+    filterLabel: "Filtrar campanhas",
+    sources: ["campaigns"],
+  },
+  noticias: {
+    title: "Artigos e Notícias",
+    filterLabel: "Filtrar artigos e notícias",
+    sources: ["news", "articles"],
+  },
+  all: {
+    title: "Publicações",
+    filterLabel: "Filtrar publicações",
+    sources: ["campaigns", "news", "articles"],
+  },
+};
+
+const normalizeTipo = (raw) =>
+  raw === "campanhas" || raw === "noticias" ? raw : "all";
+
+const loadSources = async (sources, signal) => {
+  const result = { campaigns: [], news: [], articles: [] };
+  await Promise.all(
+    sources.map(async (source) => {
+      const res = await api[source].list({ limit: 50 }, { signal });
+      result[source] = res?.data ?? [];
+    }),
+  );
+  return result;
+};
+
+function ViewCampaignsContent() {
+  const tipo = normalizeTipo(useSearchParams().get("tipo"));
+  const view = VIEW_CONFIG[tipo];
+
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -85,22 +116,12 @@ export default function ArtigosPage() {
       try {
         setLoading(true);
         setError(null);
-        const [campaignsRes, newsRes, articlesRes] = await Promise.all([
-          api.campaigns.list({ limit: 50 }, { signal: ctrl.signal }),
-          api.news.list({ limit: 50 }, { signal: ctrl.signal }),
-          api.articles.list({ limit: 50 }, { signal: ctrl.signal }),
-        ]);
-        setArticles(
-          mergePublications({
-            campaigns: campaignsRes?.data ?? [],
-            news: newsRes?.data ?? [],
-            articles: articlesRes?.data ?? [],
-          }),
-        );
+        const sources = await loadSources(view.sources, ctrl.signal);
+        setArticles(mergePublications(sources));
       } catch (err) {
         if (err.name === "AbortError") return;
         // eslint-disable-next-line no-console
-        console.error("[ArtigosPage] load failed", err);
+        console.error("[ViewCampaignsPage] load failed", err);
         setError("Não foi possível carregar as publicações.");
       } finally {
         setLoading(false);
@@ -108,21 +129,21 @@ export default function ArtigosPage() {
     };
     load();
     return () => ctrl.abort();
-  }, []);
+  }, [tipo]);
 
   return (
     <div className={styles.pageWrapper}>
       <main className={styles.mainContent}>
         <div className={styles.titleContainer}>
-          <h1 className={styles.pageTitle}>Campanhas</h1>
-          <button className={styles.filterButton} aria-label="Filtrar campanhas">
+          <h1 className={styles.pageTitle}>{view.title}</h1>
+          <button className={styles.filterButton} aria-label={view.filterLabel}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="#39542D"/>
             </svg>
           </button>
         </div>
 
-        {loading && <p>Carregando publicações...</p>}
+        {loading && <p>{LOADING_TEXT}</p>}
         {error && <p style={{ color: "#C62828" }}>{error}</p>}
         {!loading && !error && articles.length === 0 && (
           <p>Nenhuma publicação disponível no momento.</p>
@@ -135,5 +156,13 @@ export default function ArtigosPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ViewCampaignsPage() {
+  return (
+    <Suspense fallback={<p>{LOADING_TEXT}</p>}>
+      <ViewCampaignsContent />
+    </Suspense>
   );
 }
