@@ -1,3 +1,87 @@
-.form > * {
-  margin-bottom: 0.5rem;
+/* Espaçamento vertical generoso entre os campos, fiel ao mock. */
+.form {
+  display: flex;
+  flex-direction: column;
 }
+
+.form > * {
+  margin-bottom: 1.5rem;
+}
+
+/* Mensagens de erro devem colar no campo acima, sem herdar o respiro grande. */
+.form > span {
+  margin-top: -1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Inputs e selects mais altos e arredondados, como no mock. Escopado à
+   página de contato para não alterar os formulários do admin. */
+.form input,
+.form select {
+  border-radius: 0.75rem;
+  border: 0.1rem solid #B3B3B3;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+}
+
+/* Chevron custom fino no lugar da seta nativa do select, fiel ao mock. */
+.form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+}
+
+/* Estado de foco (ao clicar no campo): borda verde da marca. */
+.form input:focus,
+.form select:focus {
+  border-color: #39542D;
+  outline: none;
+  box-shadow: 0 0 0 1px #39542D;
+}
+
+
+/* Checkbox de Termos como círculo custom, fiel ao mock. */
+.termsCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  margin-right: 0.75rem;
+  border: 0.1rem solid #B3B3B3;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.termsCheckbox::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.15s ease-in-out;
+  background-color: #39542D;
+}
+
+.termsCheckbox:checked {
+  border-color: #39542D;
+}
+
+.termsCheckbox:checked::before {
+  transform: scale(1);
+}
+
+.termsCheckbox:focus-visible {
+  outline: 2px solid #84C868;
+  outline-offset: 2px;
+}
+
