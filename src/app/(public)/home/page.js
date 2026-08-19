@@ -14,14 +14,14 @@ function Home() {
         </div>
         <div>
           <RedirectButton
-            link="/viewCampaignsPage"
+            link="/viewCampaignsPage?tipo=campanhas"
             label="Conheça Nossas Campanhas"
             variation="white"
           />
         </div>
         <div>
           <RedirectButton
-            link="/viewCampaignsPage"
+            link="/viewCampaignsPage?tipo=noticias"
             label="Acompanhe as Últimas Notícias"
             variation="white"
           />

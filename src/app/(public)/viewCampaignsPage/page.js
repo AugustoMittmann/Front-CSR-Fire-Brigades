@@ -77,6 +77,11 @@ const VIEW_CONFIG = {
     sources: ["campaigns"],
   },
   noticias: {
+    title: "Notícias",
+    filterLabel: "Filtrar notícias",
+    sources: ["news"],
+  },
+  artigos: {
     title: "Artigos e Notícias",
     filterLabel: "Filtrar artigos e notícias",
     sources: ["news", "articles"],
@@ -89,7 +94,7 @@ const VIEW_CONFIG = {
 };
 
 const normalizeTipo = (raw) =>
-  raw === "campanhas" || raw === "noticias" ? raw : "all";
+  raw === "campanhas" || raw === "noticias" || raw === "artigos" ? raw : "all";
 
 const loadSources = async (sources, signal) => {
   const result = { campaigns: [], news: [], articles: [] };
