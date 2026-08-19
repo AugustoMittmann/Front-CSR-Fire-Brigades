@@ -1,0 +1,24 @@
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background-color: var(--gray-200);
+}
+
+.main {
+  padding: 1.5rem 2rem;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+    /* Single column: the top bar takes its natural height and the content row
+       fills the rest. Without this, the grid stretches both auto rows to split
+       the 100vh evenly, ballooning the near-empty bar into a huge white block. */
+    grid-template-rows: auto 1fr;
+  }
+  .main {
+    padding: 1rem;
+  }
+}

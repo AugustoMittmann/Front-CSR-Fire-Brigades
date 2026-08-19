@@ -1,0 +1,40 @@
+.input {
+    border-radius: 0.5rem;
+    border: 0.1rem solid #757575;
+    padding: 0.5rem 0.8rem;
+    color: #263A1E;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 2.5rem;
+  }
+  
+  .input:focus {
+    outline-color: #84C868;
+  }
+  
+  .disabled {
+    border-radius: 0.5rem;
+    background-color: #7575751A;
+    color: #7575751A;
+    border: 0;
+    padding: 0.5rem;
+    width: 100%;
+    position: rel;
+  }
+  
+  .icon {
+    margin-top: 10px;
+    position: absolute;
+    right: 12px;
+  }
+  
+  .labelpadding {
+    margin-bottom: 0.25rem !important;
+  }
+
+  .input::placeholder {
+    color: #39542D;
+    font-family: 'Montserrat';
+    font-weight: bold;
+  }
+  
