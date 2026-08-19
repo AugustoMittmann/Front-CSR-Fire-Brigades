@@ -1,9 +1,6 @@
-import ViewBrigades from "./components/viewBrigadesButton";
+import RedirectButton from "../../components/redirectButton";
 import styles from "./homepage.module.css";
-import ViewCampaigns from "./components/viewCampaignsButton";
-import LatestNews from "./components/latestNews";
 import DemographicCensus from "./components/demographicCensus";
-import Contact from "./components/contactButton";
 import CampaignsCarousel from "./components/campaignsCarousel";
 import LearnMoreButton from "./components/learnMoreButton";
 import HomeStats from "./components/homeStats";
@@ -16,10 +13,18 @@ function Home() {
           CONECTANDO BRIGADAS POR TODO O BRASIL
         </div>
         <div>
-          <ViewCampaigns />
+          <RedirectButton
+            link="/viewCampaignsPage"
+            label="Conheça Nossas Campanhas"
+            variation="white"
+          />
         </div>
         <div>
-          <LatestNews/>
+          <RedirectButton
+            link="/viewCampaignsPage"
+            label="Acompanhe as Últimas Notícias"
+            variation="white"
+          />
         </div>
       </section>
       <section className={styles.campaignsSection}>
@@ -43,10 +48,18 @@ function Home() {
         <HomeStats />
 
         <div>
-          <ViewBrigades />
+          <RedirectButton
+            link="/viewBrigadesPage"
+            label="Conheça Nossas Brigadas"
+            icon="localizacaobranco"
+          />
         </div>
         <div>
-          <Contact />
+             <RedirectButton
+            link="/contactPage"
+            label="Entrar em contato"
+            icon="mail"
+          />
         </div>       
       </section>  
           
