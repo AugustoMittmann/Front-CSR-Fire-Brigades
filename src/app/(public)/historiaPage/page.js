@@ -1,62 +1,55 @@
+import Image from "next/image";
 import styles from "./historiaPage.module.css";
-import {
-  HandBulbIcon,
-  MegaphoneIcon,
-  FlowIcon,
-  PeopleIcon,
-  BulbCheckIcon,
-  PeopleGroupIcon,
-} from "./objetivosIcons";
 
 const objetivos = [
   {
-    Icon: HandBulbIcon,
+    icon: "/images/objetivos/desenvolvimento-tecnico.png",
     text: "Buscar desenvolvimento técnico nas áreas de organização, comunicação institucional, combate, saúde e segurança.",
   },
   {
-    Icon: MegaphoneIcon,
+    icon: "/images/objetivos/captacao-recursos.png",
     text: "Captar recursos para custeio administrativo, apoio jurídico, deslocamentos, estadias, equipamentos e realização de eventos.",
   },
   {
-    Icon: FlowIcon,
+    icon: "/images/objetivos/forcas-tarefa.png",
     text: "Ter capacidade de organizar Forças-Tarefa para atuação em grandes ocorrências, ou seja, a viabilização de uma brigada nacional voluntária.",
   },
   {
-    Icon: PeopleIcon,
+    icon: "/images/objetivos/seguro.png",
     text: "Viabilizar seguro de vida e despesas médicas aos voluntários.",
   },
   {
-    Icon: BulbCheckIcon,
+    icon: "/images/objetivos/politicas-publicas.png",
     text: "Discutir políticas públicas relacionadas à prevenção e combate voluntário a incêndios florestais.",
   },
   {
-    Icon: PeopleGroupIcon,
+    icon: "/images/objetivos/legislacao.png",
     text: "Atuar para estabelecimento de legislações federais e estaduais, que reconheçam as atividades dos brigadistas voluntários e a utilidade pública das organizações.",
   },
 ];
 
 const brigadasFundadoras = [
-  { name: "ABME" },
-  { name: "BRIVAC" },
-  { name: "Brigada 1" },
-  { name: "Simbiose" },
-  { name: "CIFA" },
-  { name: "Chico Taquara" },
-  { name: "Brigada Caratuva" },
-  { name: "Vale do Capão" },
-  { name: "Rede Contra Fogo" },
-  { name: "Brigada Guará" },
-  { name: "Ouro Branco" },
-  { name: "João Montevade" },
-  { name: "Alter do Chao" },
-  { name: "Brigada Carcará" },
+  { name: "ABME", logo: "/images/brigadas/abme.png" },
+  { name: "BRIVAC", logo: "/images/brigadas/brivac.png" },
+  { name: "Brigada 1", logo: "/images/brigadas/brigada-1.png" },
+  { name: "Simbiose", logo: "/images/brigadas/simbiose.png" },
+  { name: "CIFA", logo: "/images/brigadas/cifa.png" },
+  { name: "Chico Taquara", logo: "/images/brigadas/chico-taquara.png" },
+  { name: "Brigada Caratuva", logo: "/images/brigadas/brigada-caratuva.png" },
+  { name: "Vale do Capão", logo: "/images/brigadas/vale-do-capao.png" },
+  { name: "Rede Contra Fogo", logo: "/images/brigadas/rede-contra-fogo.png" },
+  { name: "Brigada Guará", logo: "/images/brigadas/brigada-guara.png" },
+  { name: "Ouro Branco", logo: "/images/brigadas/ouro-branco.png" },
+  { name: "João Montevade", logo: "/images/brigadas/joao-montevade.png" },
+  { name: "Alter do Chao", logo: "/images/brigadas/alter-do-chao.png" },
+  { name: "Brigada Carcará", logo: "/images/brigadas/brigada-carcara.png" },
 ];
 
 const diretoria = [
   {
     name: "Rafael Gava",
     role: "Diretor Presidente",
-    photo: null,
+    photo: "/images/rafael-gava.jpg",
     bio: [
       "Desenvolvedor, Cofundador e atual Coordenador da Brigada Caratuva – Paraná.",
       "Cofundador da Brigada Voluntária de Prevenção e Combate a Incêndios em Montanha (Brigada FEPAM). Vice-Presidente da Fundação João José Bigarella.",
@@ -70,7 +63,7 @@ const diretoria = [
   {
     name: "Maíz d’Assumpção",
     role: "Diretora Secretária",
-    photo: null,
+    photo: "/images/maiz-dasumpcao.jpg",
     bio: [
       "Brigadista Florestal Voluntária desde 2014, foi Coordenadora do Núcleo de Belo Horizonte da Brigada 1 e é representante do Grupo de Mulheres da RNBV.",
       "Prêmio Cidadã Sustentável Categoria Meio Ambiente em 2014 pelos seus trabalhos como brigadista voluntária em Brumadinho/MG.",
@@ -80,7 +73,7 @@ const diretoria = [
   {
     name: "Vinícius Gaburro De Zorzi",
     role: "Diretor Financeiro",
-    photo: null,
+    photo: "/images/vinicius-gaburro.jpg",
     bio: [
       "Brigadista Florestal Voluntário desde 2003, associado da OSCIP SIMBiOSE desde 2007, instituição onde atua voluntariamente no planejamento, acompanhamento de implantação e monitoramento de projetos de conservação da natureza.",
       "Além do trabalho voluntariado, experiência profissional na gestão de parques urbanos e unidades de conservação públicas, na coordenação de projetos de manejo de bacias hidrográficas e áreas prioritárias para conservação da natureza.",
@@ -146,10 +139,16 @@ export default function HistoriaPage() {
         <section className={styles.section}>
           <h2 className={styles.subtitle}>Objetivos</h2>
           <ul className={styles.objetivosList}>
-            {objetivos.map(({ Icon, text }, index) => (
+            {objetivos.map(({ icon, text }, index) => (
               <li key={index} className={styles.objetivoCard}>
                 <div className={styles.objetivoIcon}>
-                  <Icon />
+                  <Image
+                    src={icon}
+                    alt=""
+                    width={48}
+                    height={48}
+                    className={styles.objetivoIconImg}
+                  />
                 </div>
                 <p className={styles.objetivoText}>{text}</p>
               </li>
@@ -181,12 +180,24 @@ export default function HistoriaPage() {
         <section className={styles.section}>
           <h2 className={styles.subtitle}>Brigadas Fundadoras</h2>
           <ul className={styles.brigadasGrid}>
-            {brigadasFundadoras.map(({ name }) => (
+            {brigadasFundadoras.map(({ name, logo }) => (
               <li key={name} className={styles.brigadaCard}>
-                <div
-                  className={styles.brigadaLogo}
-                  aria-label={`Logo ${name}`}
-                />
+                <div className={styles.brigadaLogo}>
+                  {logo ? (
+                    <Image
+                      src={logo}
+                      alt={`Logo ${name}`}
+                      fill
+                      sizes="80px"
+                      className={styles.brigadaLogoImg}
+                    />
+                  ) : (
+                    <span
+                      className={styles.brigadaLogoFallback}
+                      aria-label={`Logo ${name}`}
+                    />
+                  )}
+                </div>
                 <span className={styles.brigadaName}>{name}</span>
               </li>
             ))}
@@ -196,12 +207,24 @@ export default function HistoriaPage() {
         <section className={styles.section}>
           <h2 className={styles.subtitle}>Diretoria</h2>
           <div className={styles.diretoriaList}>
-            {diretoria.map(({ name, role, bio }) => (
+            {diretoria.map(({ name, role, bio, photo }) => (
               <article key={name} className={styles.diretorCard}>
-                <div
-                  className={styles.diretorPhoto}
-                  aria-label={`Foto de ${name}`}
-                />
+                <div className={styles.diretorPhoto}>
+                  {photo ? (
+                    <Image
+                      src={photo}
+                      alt={`Foto de ${name}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      className={styles.diretorPhotoImg}
+                    />
+                  ) : (
+                    <span
+                      className={styles.diretorPhotoFallback}
+                      aria-label={`Foto de ${name}`}
+                    />
+                  )}
+                </div>
                 <div className={styles.diretorInfo}>
                   <h3 className={styles.diretorName}>{name}</h3>
                   <p className={styles.diretorRole}>{role}</p>
