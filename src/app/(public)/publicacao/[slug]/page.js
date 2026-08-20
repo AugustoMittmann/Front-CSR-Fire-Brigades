@@ -78,7 +78,7 @@ function DonateBlock({ pix }) {
         Faça uma doação
       </button>
       <p className={styles.donateFeedback} role="status" aria-live="polite">
-        {copied ? "Chave PIX copiada!" : "Toque para copiar a chave PIX"}
+        {copied ? "Chave PIX copiada!" : ""}
       </p>
     </>
   );
