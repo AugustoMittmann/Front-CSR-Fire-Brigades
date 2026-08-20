@@ -135,9 +135,16 @@ export const api = {
   campaigns: {
     ...crudResource("/api/campaigns"),
     results: (id, opts) => apiGet(`/api/campaigns/${enc(id)}/results`, opts),
+    brigades: (id, opts) => apiGet(`/api/campaigns/${enc(id)}/brigades`, opts),
   },
-  news: crudResource("/api/news"),
-  articles: crudResource("/api/articles"),
+  news: {
+    ...crudResource("/api/news"),
+    brigades: (id, opts) => apiGet(`/api/news/${enc(id)}/brigades`, opts),
+  },
+  articles: {
+    ...crudResource("/api/articles"),
+    brigades: (id, opts) => apiGet(`/api/articles/${enc(id)}/brigades`, opts),
+  },
   faqs: {
     // Backend has no GET /:id — admin edit form loads a single FAQ from list().
     list: (params, opts) => apiGet("/api/faqs", { params, ...opts }),
