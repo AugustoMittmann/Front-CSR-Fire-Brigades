@@ -20,9 +20,10 @@ import styles from "./page.module.css";
  * `description` em texto puro), caímos no texto simples preservando quebras.
  *
  * Abaixo do texto, quando houver dados configurados no banco (para qualquer
- * tipo de publicação), exibimos: imagem de capa, botão de doação (copia a chave
- * PIX), os Resultados (GET /api/campaigns/:id/results), as Brigadas
- * Participantes (GET /api/{tipo}/:id/brigades) e novamente o botão de doação.
+ * tipo de publicação), exibimos nesta ordem: imagem de capa, botão de doação
+ * (copia a chave PIX), os Resultados (GET /api/campaigns/:id/results), as
+ * Últimas notícias (carrossel), as Brigadas Participantes
+ * (GET /api/{tipo}/:id/brigades) e novamente o botão de doação.
  * Seções sem dados simplesmente não são renderizadas.
  */
 
@@ -175,6 +176,8 @@ export default function PublicationDetailPage() {
         </>
       )}
 
+      <LatestNewsCarousel excludeId={resource === "news" ? id : null} />
+
       {brigades.length > 0 && (
         <section className={styles.brigadesSection}>
           <h2 className={styles.brigadesHeading}>Brigadas Participantes</h2>
@@ -202,8 +205,6 @@ export default function PublicationDetailPage() {
       )}
 
       {brigades.length > 0 && item.pix && <DonateBlock pix={item.pix} />}
-
-      <LatestNewsCarousel excludeId={resource === "news" ? id : null} />
     </article>
   );
 }
