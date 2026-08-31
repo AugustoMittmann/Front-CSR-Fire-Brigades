@@ -8,11 +8,11 @@ import styles from "./adminSidebar.module.css";
 import Button from "../../components/button";
 
 const LINKS = [
-  { href: "/admin/redefinir-senha", label: "Redefinir senha" },
   { href: "/admin/brigadas", label: "Gerenciar brigadas" },
   { href: "/admin/artigos", label: "Gerenciar artigos" },
   { href: "/admin/faqs", label: "Gerenciar FAQs" },
   { href: "/admin/usuarios", label: "Gerenciar usuários" },
+  { href: "/admin/redefinir-senha", label: "Redefinir senha" },
 ];
 
 // Navigation for the admin panel.
