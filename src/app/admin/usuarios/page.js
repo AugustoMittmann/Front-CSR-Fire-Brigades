@@ -7,10 +7,10 @@ import AdminTable from "../components/adminTable";
 import ConfirmModal from "../components/confirmModal";
 import Button from "../../components/button";
 
-// User management uses the profile admin endpoints (all require role admin or
-// super_admin server-side). Deletion isn't supported by the backend — instead
-// we surface Validar/Revogar as per-row actions, which flip the profile's
-// is_validated flag. Bulk delete is intentionally disabled.
+// User management uses the profile endpoints (authenticated staff only,
+// server-side). Deletion isn't supported by the backend — instead we surface
+// Validar/Revogar as per-row actions, which flip the profile's is_validated
+// flag. Bulk delete is intentionally disabled.
 export default function AdminUsersPage() {
   const router = useRouter();
   const [rows, setRows] = useState([]);
@@ -70,7 +70,6 @@ export default function AdminUsersPage() {
   const columns = [
     { key: "email", label: "E-mail" },
     { key: "displayName", label: "Nome" },
-    { key: "role", label: "Papel", width: 130 },
     {
       key: "isValidated",
       label: "Validado",

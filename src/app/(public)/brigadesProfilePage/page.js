@@ -1,7 +1,7 @@
 
 import FAQ from '../FAQPage/components/FAQ'
 import styles from "./style.module.css";
-import SearchBar from '../home/components/searchbar';
+import SearchBar from '../../components/searchbar';
 import Button from '../../components/button';
 import Image from 'next/image'
 import Table from '../../components/table';

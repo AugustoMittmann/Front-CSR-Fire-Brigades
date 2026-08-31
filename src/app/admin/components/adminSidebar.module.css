@@ -8,6 +8,12 @@
   gap: 0.25rem;
 }
 
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -18,6 +24,21 @@
   font-size: 1rem;
   border-bottom: 1px solid #eee;
   margin-bottom: 0.75rem;
+}
+
+/* Hamburger toggle: only meaningful on mobile, hidden on desktop where the
+   full nav list is always visible. */
+.toggle {
+  display: none;
+}
+
+/* On desktop the menu is a plain vertical stack that grows to fill the
+   sidebar, pushing "Sair" to the bottom via the logout's margin-top: auto. */
+.menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.25rem;
 }
 
 .link {
@@ -35,6 +56,11 @@
   background-color: var(--gray-200);
 }
 
+.link:focus-visible {
+  outline: 2px solid var(--green-600);
+  outline-offset: -2px;
+}
+
 .active {
   background-color: var(--green-200);
   color: var(--green-800);
@@ -44,5 +70,70 @@
 
 .logout {
   margin-top: auto;
-  padding: 0 1rem 1rem;
+  padding: 1rem 1rem 0;
+}
+
+.logout button:focus-visible {
+  outline: 2px solid var(--green-600);
+  outline-offset: 2px;
+}
+
+/* Mobile: the full-height vertical sidebar would fill the viewport and push
+   content below the fold, so we collapse it into a top bar with a hamburger.
+   The nav list is hidden until the toggle opens it as a dropdown. */
+@media (max-width: 720px) {
+  .sidebar {
+    min-height: 0;
+    padding: 0;
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .bar {
+    padding: 0.75rem 1rem;
+  }
+
+  .brand {
+    padding: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+    font-size: 0.95rem;
+  }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background-color: var(--white);
+    color: var(--green-800);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .toggle:focus-visible {
+    outline: 2px solid var(--green-600);
+    outline-offset: 2px;
+  }
+
+  /* Collapsed by default on mobile; .menuOpen reveals the dropdown. */
+  .menu {
+    display: none;
+    flex: none;
+    padding: 0.5rem 0 0.75rem;
+    border-top: 1px solid #eee;
+  }
+
+  .menuOpen {
+    display: flex;
+  }
+
+  .logout {
+    margin-top: 0.5rem;
+    padding: 0 1.25rem;
+  }
 }
