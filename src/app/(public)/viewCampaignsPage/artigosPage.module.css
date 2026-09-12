@@ -42,6 +42,39 @@
   opacity: 0.7;
 }
 
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1.5px solid #d8d8d8;
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #2D2D2D;
+}
+
+.searchInput::placeholder {
+  color: #39542D;
+  opacity: 0.8;
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
 .articlesContainer {
   display: flex;
   flex-direction: column;
