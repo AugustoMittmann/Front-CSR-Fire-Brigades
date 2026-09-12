@@ -6,8 +6,10 @@ const DynamicRadioButtons = ({ options, onSelect }) => {
 
   const handleOptionChange = (event) => {
     const value = event.target.value;
-    setSelectedOption(value);
-    onSelect(value);
+    // Toggle: clicar de novo na opção já marcada desmarca ela.
+    const next = selectedOption === value ? null : value;
+    setSelectedOption(next);
+    onSelect(next);
   };
 
   return (
@@ -15,8 +17,9 @@ const DynamicRadioButtons = ({ options, onSelect }) => {
         {width: "100%", justifyContent: "center", alignItems: "start"}}>      
       {options.map((option) => (
         <div key={option.value} style={{
-            width:"100%", 
+            width:"100%",
             display: "flex",
+            alignItems: "center",
             marginBottom: "0.8rem",
         }}>
           <input

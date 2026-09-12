@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Button, { ButtonStyle } from "../../components/button";
 import Input from "../../components/input";
 import CustomSelect from "./components/customSelect";
@@ -8,7 +8,7 @@ import StateCodes from "../../constants/estados";
 import ContactReasons from "../../constants/contactReasons";
 import "./css.css";
 import CitiesByState from "../../constants/cidadesPorEstado";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SaveModal from "../../components/saveModal";
 import EmailValidator from "../../validators/emailValidator";
 import PhoneValidator from "../../validators/phoneValidator";
@@ -19,10 +19,15 @@ import { api } from "@/lib/api";
 const RNBV_OPTION = { key: "rnbv", value: "RNBV - Rede Nacional de Brigadas Voluntárias" };
 
 function Contact() {
+  const searchParams = useSearchParams();
+  // Brigada pré-selecionada via ?brigadeId=<uuid> (ex.: botão "Entrar em
+  // Contato" do perfil da brigada). Se não vier, cai no default (RNBV).
+  const preselectedBrigade = searchParams.get("brigadeId");
+
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [contactReason, setContactReason] = useState("");
-  const [brigade, setBrigade] = useState(RNBV_OPTION.key);
+  const [brigade, setBrigade] = useState(preselectedBrigade || RNBV_OPTION.key);
   const [brigadeItems, setBrigadeItems] = useState([RNBV_OPTION]);
   const [brigadesLoading, setBrigadesLoading] = useState(true);
   const [isSaveSuccess, setIsSaveSuccess] = useState(false);
@@ -200,4 +205,10 @@ function Contact() {
   );
 }
 
-  export default Contact
+  export default function ContactPage() {
+    return (
+      <Suspense fallback={<div style={{ margin: "1rem", color: "#39542D" }}>Carregando...</div>}>
+        <Contact />
+      </Suspense>
+    );
+  }

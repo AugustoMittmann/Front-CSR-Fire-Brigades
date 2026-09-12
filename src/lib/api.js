@@ -131,7 +131,13 @@ const crudResource = (path) => ({
 });
 
 export const api = {
-  brigades: crudResource("/api/brigades"),
+  brigades: {
+    ...crudResource("/api/brigades"),
+    // Sub-recursos N:N (activities_brigade / items_brigade). O perfil público
+    // usa estes para as seções "Principais Atividades" e "Sugestão de Doação".
+    activities: (id, opts) => apiGet(`/api/brigades/${enc(id)}/activities`, opts),
+    items: (id, opts) => apiGet(`/api/brigades/${enc(id)}/items`, opts),
+  },
   campaigns: {
     ...crudResource("/api/campaigns"),
     results: (id, opts) => apiGet(`/api/campaigns/${enc(id)}/results`, opts),

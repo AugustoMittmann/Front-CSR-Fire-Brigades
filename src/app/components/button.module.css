@@ -18,9 +18,10 @@
 }
 
 .standard {
+  border-radius: 0.75rem;
   background-color: transparent;
   color: #39542D;
-  border-color: #39542D;
+  border: 0.1rem solid #39542D;
 }
 
 .disabledEmphasized {

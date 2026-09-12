@@ -6,9 +6,12 @@ import { useState } from 'react'
 import DynamicRadioButtons from "./dynamicRadioButtons";
 import styles from "./filterPopup.module.css";
 
-export default function FilterPopup({isOpen, onClose}) {
+export default function FilterPopup({isOpen, onClose, onApply}) {
   const modal = useRef(null);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [sortOrder, setSortOrder] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const options = [
     { label: 'No meu estado', value: 'option1' },
@@ -18,13 +21,67 @@ export default function FilterPopup({isOpen, onClose}) {
 
   const handleOptionSelect = (value) => {
     setSelectedOption(value);
+    setErrorMsg("");
   };
 
-  const saveFilter = () => {           
-    onClose();
+  // Toggle das tags de ordenação: clicar na tag já ativa desmarca.
+  const handleSortSelect = (value) => {
+    setSortOrder((prev) => (prev === value ? null : value));
   };
 
-  useEffect(() => {    
+  // Pega a posição atual do usuário (Promise em cima da API de callback).
+  const getPosition = () =>
+    new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocalização não é suportada neste navegador."));
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve(pos.coords),
+        (err) => reject(err),
+        { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 },
+      );
+    });
+
+  const saveFilter = async () => {
+    setErrorMsg("");
+
+    // Só "az"/"za" são aplicados; "prox" (Proximidade) ainda não tem lógica.
+    const sort = sortOrder === "az" || sortOrder === "za" ? sortOrder : null;
+
+    // Só "No meu estado" (option1) está ligado. Os outros dois ainda não têm
+    // campo na base, então por ora não aplicam nada (limpam o filtro de estado).
+    if (selectedOption !== "option1") {
+      onApply?.({ state: null, sort });
+      onClose();
+      return;
+    }
+
+    try {
+      setSaving(true);
+      const coords = await getPosition();
+      const res = await fetch(
+        `/api/geocode/reverse?lat=${coords.latitude}&lng=${coords.longitude}`,
+      );
+      const payload = await res.json().catch(() => null);
+      if (!res.ok || !payload?.state) {
+        throw new Error(payload?.error?.message || "Não foi possível obter seu estado.");
+      }
+      onApply?.({ state: payload.state, sort });
+      onClose();
+    } catch (err) {
+      // GeolocationPositionError.code === 1 => permissão negada.
+      const msg =
+        err?.code === 1
+          ? "Permita o acesso à localização para usar este filtro."
+          : err?.message || "Não foi possível obter sua localização.";
+      setErrorMsg(msg);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  useEffect(() => {
     const appearingFromTop = [
       { transform: "translateY(-50%)" },
       { transform: "translateY(0%)" }
@@ -33,26 +90,11 @@ export default function FilterPopup({isOpen, onClose}) {
       duration: 300,
       iterations: 1
     };
-    
+
     if(!isOpen) return;
 
-    modal.current.animate(appearingFromTop, modalTiming);    
-    tagSelector();
+    modal.current.animate(appearingFromTop, modalTiming);
   }, [modal])
-
-  function tagSelector() {    
-    const sorterTags = document.getElementById('tagSorter').querySelectorAll(`.${styles.tag}`);
-    addActiveTagEventListener(sorterTags);
-  }
-
-  function addActiveTagEventListener(tags) {
-    tags.forEach(tag => {
-      tag.addEventListener('click', () => {
-          tags.forEach(btn => btn.className = styles.tag);
-          tag.className = styles.activetag;
-      });
-    });  
-  }
 
   return isOpen && (
     <div 
@@ -114,22 +156,40 @@ export default function FilterPopup({isOpen, onClose}) {
       }}>Ordenar</span>
       <div id="tagSorter" style={
         {width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "space-between"}}>
-          <button className={styles.tag} data-filter="sort1">Ordem A-Z</button>
-          <button className={styles.tag} data-filter="sort2">Ordem Z-A</button>
-          <button className={styles.tag} data-filter="sort3">Proximidade</button>          
+          <button
+            type="button"
+            className={sortOrder === "az" ? styles.activetag : styles.tag}
+            onClick={() => handleSortSelect("az")}
+          >Ordem A-Z</button>
+          <button
+            type="button"
+            className={sortOrder === "za" ? styles.activetag : styles.tag}
+            onClick={() => handleSortSelect("za")}
+          >Ordem Z-A</button>
+          <button
+            type="button"
+            className={sortOrder === "prox" ? styles.activetag : styles.tag}
+            onClick={() => handleSortSelect("prox")}
+          >Proximidade</button>
       </div>
       
       <div style={
-        {width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+        {width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
         <Button
-          placeholder="Salvar filtros"
-          onPress={() => {
-            document.body.style.transition = "opacity 0.5s";
-            document.body.style.opacity = "1";
-            saveFilter();
-          }}
-          style={styles.saveButton}     
+          placeholder={saving ? "Localizando..." : "Salvar filtros"}
+          disabled={saving}
+          onPress={saveFilter}
+          className={styles.saveButton}
         />
+        {errorMsg && (
+          <span style={{
+            color: "#C62828",
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: "13px",
+            textAlign: "center",
+            marginTop: "0.25rem",
+          }}>{errorMsg}</span>
+        )}
       </div>
     </div>
   );

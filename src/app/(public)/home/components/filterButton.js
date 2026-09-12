@@ -6,7 +6,7 @@ import styles from "./filterButton.module.css";
 import { useState } from 'react'
 import FilterPopup from "./filterPopup";
 
-export default function FilterButton() {
+export default function FilterButton({ onApply }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
@@ -23,12 +23,18 @@ export default function FilterButton() {
         <Image
             src={Icons.filtrar.value}
             alt={Icons.filtrar.alt}
-            height={32}
-            width={24}
+            height={22}
+            width={22}
         />
         </div>
       </button>
-      {isOpen && <FilterPopup isOpen={isOpen} onClose={() => setIsOpen(!isOpen)} />}
+      {isOpen && (
+        <FilterPopup
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onApply={onApply}
+        />
+      )}
     </>
   );
 }
