@@ -242,8 +242,13 @@ function BrigadeCard({ brigade: b }) {
   const hasImage = Boolean(b.imageUrl);
 
   return (
-    <div
+    <Link
+      href={`/brigadesProfilePage?id=${b.id}`}
+      aria-label={`Abrir perfil de ${b.name}`}
       style={{
+        display: "block",
+        textDecoration: "none",
+        color: "inherit",
         position: "relative",
         height: "180px",
         borderRadius: "16px",
@@ -265,10 +270,9 @@ function BrigadeCard({ brigade: b }) {
         }}
       />
 
-      {/* Botão flecha -> perfil da brigada. */}
-      <Link
-        href={`/brigadesProfilePage?id=${b.id}`}
-        aria-label={`Abrir perfil de ${b.name}`}
+      {/* Flecha (apenas visual) — o card inteiro é o link para o perfil. */}
+      <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           top: "50%",
@@ -294,7 +298,7 @@ function BrigadeCard({ brigade: b }) {
             strokeLinejoin="round"
           />
         </svg>
-      </Link>
+      </div>
 
       {/* Nome + endereço, na base, em branco. */}
       <div
@@ -328,7 +332,7 @@ function BrigadeCard({ brigade: b }) {
           {location}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./campaignsCarousel.module.css";
 import { api } from "@/lib/api";
 
@@ -99,12 +100,16 @@ export default function CampaignsCarousel() {
 
   const trackTransform = `translateX(calc(-1 * ${idx} * ${SLIDE_STEP}))`;
 
-  // Card reutilizado pelo carrossel (mobile) e pela grade (desktop).
+  // Card reutilizado pelo carrossel (mobile) e pela grade (desktop). Leva
+  // direto para a página da campanha (/publicacao/campaign-<id>), no mesmo
+  // formato de slug composto que a listagem usa.
   const renderCard = (campaign, { hidden } = {}) => (
-    <div
+    <Link
       key={campaign.id}
+      href={`/publicacao/campaign-${campaign.id}`}
       className={styles.campaignCard}
       aria-hidden={hidden ? "true" : undefined}
+      tabIndex={hidden ? -1 : undefined}
     >
       <div className={styles.imageContainer}>
         <Image
@@ -120,7 +125,7 @@ export default function CampaignsCarousel() {
         <p className={styles.cardTitle}>{campaign.title}</p>
         <p className={styles.cardDescription}>{campaign.description}</p>
       </div>
-    </div>
+    </Link>
   );
 
   // Estados compartilhados (carregando / erro / vazio).
