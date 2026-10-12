@@ -26,10 +26,22 @@ export default function CampaignsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Desktop (>=1024px) exibe uma grade estática; mobile mantém o carrossel.
+  // Começa `false` para o render do servidor casar com o 1º render do cliente
+  // (evita hydration mismatch); o matchMedia ajusta após montar.
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const hasInteracted = useRef(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsDesktop(mql.matches);
+    sync();
+    mql.addEventListener("change", sync);
+    return () => mql.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -87,6 +99,64 @@ export default function CampaignsCarousel() {
 
   const trackTransform = `translateX(calc(-1 * ${idx} * ${SLIDE_STEP}))`;
 
+  // Card reutilizado pelo carrossel (mobile) e pela grade (desktop).
+  const renderCard = (campaign, { hidden } = {}) => (
+    <div
+      key={campaign.id}
+      className={styles.campaignCard}
+      aria-hidden={hidden ? "true" : undefined}
+    >
+      <div className={styles.imageContainer}>
+        <Image
+          src={campaign.image}
+          alt=""
+          className={styles.campaignImage}
+          width={400}
+          height={250}
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      </div>
+      <div className={styles.cardContent}>
+        <p className={styles.cardTitle}>{campaign.title}</p>
+        <p className={styles.cardDescription}>{campaign.description}</p>
+      </div>
+    </div>
+  );
+
+  // Estados compartilhados (carregando / erro / vazio).
+  if (error) {
+    return (
+      <section className={styles.carouselContainer} role="region" aria-label="Campanhas">
+        <p className={styles.stateMessage} role="alert">{error}</p>
+      </section>
+    );
+  }
+  if (loading) {
+    return (
+      <section className={styles.carouselContainer} role="region" aria-label="Campanhas">
+        <div className={styles.srOnly} role="status" aria-live="polite">Carregando campanhas...</div>
+        <p className={styles.stateMessage}>Carregando campanhas...</p>
+      </section>
+    );
+  }
+  if (campaigns.length === 0) {
+    return (
+      <section className={styles.carouselContainer} role="region" aria-label="Campanhas">
+        <p className={styles.stateMessage}>Nenhuma campanha disponível no momento.</p>
+      </section>
+    );
+  }
+
+  // Desktop: grade estática com todas as campanhas, alinhada ao título.
+  if (isDesktop) {
+    return (
+      <section className={styles.grid} role="region" aria-label="Campanhas">
+        {campaigns.map((campaign) => renderCard(campaign))}
+      </section>
+    );
+  }
+
+  // Mobile: carrossel (comportamento inalterado).
   return (
     <section
       className={styles.carouselContainer}
@@ -94,83 +164,42 @@ export default function CampaignsCarousel() {
       aria-roledescription="carrossel"
       aria-label="Campanhas"
     >
-      <div className={styles.srOnly} role="status" aria-live="polite">
-        {loading ? "Carregando campanhas..." : ""}
+      <button
+        ref={prevRef}
+        className={styles.navButton}
+        onClick={prevSlide}
+        disabled={atStart}
+        aria-label="Campanha anterior"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <div className={styles.carouselViewport}>
+        <div
+          className={styles.carouselTrack}
+          style={{ transform: trackTransform }}
+          aria-live="off"
+        >
+          {campaigns.map((campaign, i) => {
+            const visible = i >= idx && i < idx + VISIBLE_COUNT;
+            return renderCard(campaign, { hidden: !visible });
+          })}
+        </div>
       </div>
 
-      {error ? (
-        <p className={styles.stateMessage} role="alert">
-          {error}
-        </p>
-      ) : loading ? (
-        <p className={styles.stateMessage}>Carregando campanhas...</p>
-      ) : campaigns.length === 0 ? (
-        <p className={styles.stateMessage}>
-          Nenhuma campanha disponível no momento.
-        </p>
-      ) : (
-        <>
-          <button
-            ref={prevRef}
-            className={styles.navButton}
-            onClick={prevSlide}
-            disabled={atStart}
-            aria-label="Campanha anterior"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-
-          <div className={styles.carouselViewport}>
-            <div
-              className={styles.carouselTrack}
-              style={{ transform: trackTransform }}
-              aria-live="off"
-            >
-              {campaigns.map((campaign, i) => {
-                const visible = i >= idx && i < idx + VISIBLE_COUNT;
-                return (
-                  <div
-                    key={campaign.id}
-                    className={styles.campaignCard}
-                    aria-hidden={visible ? undefined : "true"}
-                  >
-                    <div className={styles.imageContainer}>
-                      <Image
-                        src={campaign.image}
-                        alt=""
-                        className={styles.campaignImage}
-                        width={400}
-                        height={250}
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    </div>
-                    <div className={styles.cardContent}>
-                      <p className={styles.cardTitle}>{campaign.title}</p>
-                      <p className={styles.cardDescription}>
-                        {campaign.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <button
-            ref={nextRef}
-            className={styles.navButton}
-            onClick={nextSlide}
-            disabled={atEnd}
-            aria-label="Próxima campanha"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </>
-      )}
+      <button
+        ref={nextRef}
+        className={styles.navButton}
+        onClick={nextSlide}
+        disabled={atEnd}
+        aria-label="Próxima campanha"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
     </section>
   );
 }

@@ -6,6 +6,15 @@
   position: relative;
 }
 
+/* Grade estática do desktop (só renderizada pelo componente em >=1024px).
+   Alinha os cards à borda do conteúdo, sem setas, 3 por linha. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
 .stateMessage {
   flex: 1;
   text-align: center;

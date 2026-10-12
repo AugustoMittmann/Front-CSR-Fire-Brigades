@@ -14,3 +14,10 @@
     font-weight: 400;
     flex-grow: 1;
 }
+
+@media (min-width: 1024px) {
+    .button {
+        max-width: 420px;
+        margin-inline: auto;
+    }
+}

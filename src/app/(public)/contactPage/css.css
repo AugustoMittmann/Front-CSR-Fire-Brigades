@@ -85,3 +85,14 @@
   outline-offset: 2px;
 }
 
+/* Desktop: formulário de contato centralizado numa coluna, sem esticar na
+   tela larga. O margin-inline:auto precisa de !important para vencer o
+   `margin:1rem` inline do wrapper; top/bottom (1rem) são preservados. */
+@media (min-width: 1024px) {
+  .contactPage {
+    max-width: 640px;
+    margin-inline: auto !important;
+    padding: 1.5rem 0 3rem;
+  }
+}
+

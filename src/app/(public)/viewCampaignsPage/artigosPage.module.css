@@ -150,6 +150,29 @@
 
 @media (min-width: 768px) {
   .mainContent {
-    max-width: 600px;
+    max-width: 720px;
+  }
+
+  /* Cards em grade de 2 colunas no tablet. */
+  .articlesContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mainContent {
+    max-width: var(--content-max);
+    padding: 2rem 1.5rem;
+  }
+
+  /* 3 colunas no desktop pleno. */
+  .articlesContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pageTitle {
+    font-size: 2rem;
   }
 }

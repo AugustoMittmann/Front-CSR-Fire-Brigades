@@ -145,7 +145,7 @@ function Contact() {
   return (
     <>
       <div style={{opacity: isSaveSuccess ? "0.5" : "1", transition: "opacity 0.5s"}}>
-        <div style={{margin: "1rem"}}>
+        <div className="contactPage" style={{margin: "1rem"}}>
           <div style={{display: "flex", flexWrap: "wrap"}}>
             <span style={{color: "#39542D", fontWeight: "bolder", fontSize: "1rem", width: "100%", marginBottom: "1rem", font: "normal normal bold 24px/29px 'Montserrat'", fontFamily: "'Montserrat', sans-serif"}}>Contato</span>
 

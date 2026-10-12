@@ -12,6 +12,9 @@
   --orange-400: #c45c13;
   --orange-500: #bc6c26;
   --beige-100: #f5f0e8;
+  /* Largura máxima do conteúdo em telas largas (desktop). Usada só dentro de
+     media queries min-width; não tem efeito no layout mobile. */
+  --content-max: 1200px;
 }
 
 @media (prefers-color-scheme: dark) {

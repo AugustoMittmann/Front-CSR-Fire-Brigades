@@ -6,6 +6,7 @@ import Link from "next/link";
 import GoogleMap from "../../components/googleMap";
 import FilterButton from "../home/components/filterButton";
 import Icons from "../../constants/icons";
+import styles from "./style.module.css";
 import { api } from "@/lib/api";
 
 /**
@@ -23,6 +24,18 @@ function ViewBrigades() {
   const [brigades, setBrigades] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Desktop (>=1024px): lista à esquerda + mapa sempre visível à direita, sem
+  // o toggle. Mobile mantém o toggle e o mapa sob demanda. Começa `false` para
+  // casar o render do servidor com o 1º do cliente (evita hydration mismatch).
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsDesktop(mql.matches);
+    sync();
+    mql.addEventListener("change", sync);
+    return () => mql.removeEventListener("change", sync);
+  }, []);
 
   // Debounce simples para não bombardear a API a cada keystroke.
   const debouncedSearch = useDebounced(search, 300);
@@ -66,12 +79,13 @@ function ViewBrigades() {
   }, [brigades, sortOrder]);
 
   return (
-    <div style={{margin: "1rem"}}>
-      <div style={{display: "flex", flexWrap: "wrap"}}>
-        <span style={{color: "#39542D", fontWeight: "bolder", fontSize: "1rem", width: "100%", marginBottom: "1rem", font: "normal normal bold 24px/29px 'Montserrat'", fontFamily: "'Montserrat', sans-serif"}}>Visualizar Brigadas</span>
+    <div className={styles.container}>
+      <div style={{margin: "1rem"}}>
+        <div style={{display: "flex", flexWrap: "wrap"}}>
+          <span className={styles.pageTitle}>Visualizar Brigadas</span>
 
-        <span style={{color: "#39542D", width: "100%", marginBottom: "1rem", font: "normal normal normal 16px/20px 'Montserrat'", fontFamily: "'Montserrat', sans-serif"}}>Navegue pela lista ou pelo mapa para encontrar a Brigada da RNBV mais próxima de você.</span>
-        <div style={{width: "100%", position: "relative"}}>
+          <span className={styles.pageDesc}>Navegue pela lista ou pelo mapa para encontrar a Brigada da RNBV mais próxima de você.</span>
+          <div style={{width: "100%", position: "relative"}}>
           {/* Input HTML simples — o componente <Input> compartilhado tem
               validação interna e não expõe value/onChange controlados. */}
           <input
@@ -106,31 +120,33 @@ function ViewBrigades() {
           />
         </div>
         <div style={{display: "flex", gap: "0.7rem", alignItems: "center", textAlign: "center", marginTop: "1.2rem", width: "100%"}}>
-          <div style={{flexGrow: 1, textAlign: "left"}}>
-            <button
-              type="button"
-              onClick={() => setIsMapVisible(!isMapVisible)}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.7rem",
-                height: "48px",
-                padding: "0 1rem",
-                backgroundColor: "#39542D",
-                color: "#FFF",
-                border: "1.5px solid #39542D",
-                borderRadius: "0.9rem",
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 600,
-                fontSize: "14px",
-                cursor: "pointer",
-              }}
-            >
-              <span>Mapa</span>
-              <MapToggle on={isMapVisible} />
-            </button>
-          </div>
+          {!isDesktop && (
+            <div style={{flexGrow: 1, textAlign: "left"}}>
+              <button
+                type="button"
+                onClick={() => setIsMapVisible(!isMapVisible)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.7rem",
+                  height: "48px",
+                  padding: "0 1rem",
+                  backgroundColor: "#39542D",
+                  color: "#FFF",
+                  border: "1.5px solid #39542D",
+                  borderRadius: "0.9rem",
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  cursor: "pointer",
+                }}
+              >
+                <span>Mapa</span>
+                <MapToggle on={isMapVisible} />
+              </button>
+            </div>
+          )}
           <div style={{flexGrow: 1, textAlign: "right"}}>
             <FilterButton
               onApply={(f) => {
@@ -175,15 +191,22 @@ function ViewBrigades() {
             </button>
           </div>
         )}
-        <div style={{marginTop: "0.5rem", width: "100%"}}>
-          {isMapVisible && <GoogleMap/>}
-        </div>
+        <div className={styles.columns}>
+          <div className={styles.mapCol}>
+            <div style={{marginTop: "0.5rem", width: "100%"}} className={styles.mapWrap}>
+              {(isDesktop || isMapVisible) && <GoogleMap fill={isDesktop} />}
+            </div>
+          </div>
 
-        <BrigadeList
-          loading={loading}
-          error={error}
-          brigades={sortedBrigades}
-        />
+          <div className={styles.listCol}>
+            <BrigadeList
+              loading={loading}
+              error={error}
+              brigades={sortedBrigades}
+            />
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   );
@@ -196,7 +219,7 @@ function BrigadeList({ loading, error, brigades }) {
     return <p style={{ marginTop: "1rem" }}>Nenhuma brigada encontrada.</p>;
 
   return (
-    <ul style={{ marginTop: "1rem", listStyle: "none", padding: 0, width: "100%" }}>
+    <ul className={styles.list} style={{ marginTop: "1rem", listStyle: "none", padding: 0, width: "100%" }}>
       {brigades.map((b) => (
         <li key={b.id} style={{ listStyle: "none", marginBottom: "1rem" }}>
           <BrigadeCard brigade={b} />

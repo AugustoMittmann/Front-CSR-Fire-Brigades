@@ -119,3 +119,74 @@
     color: #39542D;
     font-weight: 400;
 }
+
+/* ===== Desktop (>=1024px) ===== as classes *Inner / *Row não têm estilo
+   base, então no mobile os wrappers são blocos neutros e nada muda. ===== */
+@media (min-width: 1024px) {
+    .firstSection {
+        padding: 4rem 1.5rem;
+    }
+
+    /* Coluna central do hero. */
+    .heroInner {
+        max-width: 760px;
+        margin-inline: auto;
+    }
+
+    .brigadasTitleWhite {
+        font-size: 28pt;
+        margin-bottom: 2rem;
+    }
+
+    /* CTAs do hero lado a lado. */
+    .heroCtas {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .heroCtas > div {
+        flex: 1 1 0;
+        max-width: 340px;
+    }
+
+    /* Conteúdo das seções centralizado no --content-max. */
+    .sectionInner,
+    .footerInner {
+        max-width: var(--content-max);
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    .campaignsSection,
+    .section {
+        padding-block: 2.5rem;
+    }
+
+    .brigadasTitle {
+        font-size: 20pt;
+    }
+
+    /* Botões de brigadas em linha e centralizados, sem esticar até 1200px. */
+    .ctaRow {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .ctaRow > div {
+        flex: 1 1 320px;
+        max-width: 420px;
+    }
+
+    /* Rodapé verde: coluna central mais estreita e centralizada. */
+    .footerSection {
+        padding: 3rem 1.5rem;
+    }
+
+    .footerInner {
+        max-width: 720px;
+        text-align: center;
+    }
+}

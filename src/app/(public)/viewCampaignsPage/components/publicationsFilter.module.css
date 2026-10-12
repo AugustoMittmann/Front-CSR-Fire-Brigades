@@ -17,6 +17,21 @@
   font-family: "Montserrat", sans-serif;
 }
 
+/* Desktop: filtro vira um modal centralizado no meio da tela, em vez da
+   folha colada no topo (que faz sentido só no mobile). */
+@media (min-width: 1024px) {
+  .overlay {
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 460px;
+    border-radius: 16px;
+  }
+}
+
 .header {
   display: flex;
   align-items: center;

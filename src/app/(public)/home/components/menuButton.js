@@ -4,17 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Icons from "../../../constants/icons";
+import MENU_ITEMS from "../../../constants/menuItems";
 import styles from "./menuButton.module.css";
-
-const MENU_ITEMS = [
-  { href: "/home", label: "Página Inicial", icon: Icons.globo },
-  { href: "/viewBrigadesPage", label: "Visualizar Brigadas", icon: Icons.localizacao },
-  { href: "/historiaPage", label: "História da RNBV", icon: Icons.livro },
-  { href: "/viewCampaignsPage?tipo=campanhas", label: "Campanhas", icon: Icons.globo },
-  { href: "/viewCampaignsPage?tipo=artigos", label: "Artigos e Notícias", icon: Icons.jornal },
-  { href: "/contactPage", label: "Entrar em contato", icon: Icons.mailverde },
-  { href: "/FAQPage", label: "Dúvidas Frequentes", icon: Icons.ajudaverde },
-];
 
 export default function MenuButton() {
   const [open, setOpen] = useState(false);

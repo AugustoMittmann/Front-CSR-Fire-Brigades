@@ -7,6 +7,7 @@ export default function Footer() {
 
     return (
       <footer className={styles.footer}>
+        <div className={styles.inner}>
         <div className={styles.imageContainer}>
           <Image
             src="/images/juntos_somos_mais_fortes.jpg"
@@ -44,6 +45,7 @@ export default function Footer() {
           <div className={styles.copyright}>
             © {currentYear} RNBV - Rede Nacional de Brigadas Voluntárias
           </div>
+        </div>
         </div>
       </footer>
     );

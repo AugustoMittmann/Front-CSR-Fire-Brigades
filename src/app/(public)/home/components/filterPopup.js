@@ -93,29 +93,18 @@ export default function FilterPopup({isOpen, onClose, onApply}) {
 
     if(!isOpen) return;
 
+    // No desktop o filtro é um modal centralizado (a animação de "descer do
+    // topo" só faz sentido na folha mobile e conflitaria com o translate de
+    // centralização).
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+
     modal.current.animate(appearingFromTop, modalTiming);
   }, [modal])
 
   return isOpen && (
-    <div 
-    ref={modal}    
-    style={{
-      position: 'fixed',
-      top: "0",
-      left: "0",      
-      width: '100%',
-      height: '50%',
-      color: "#000000",
-      backgroundColor: "rgba(255, 255, 255, 0.99)",
-      border: "1px solid rgba(0,0,0,0.5)",
-      borderRadius: "5% 5% 0 0",
-      padding: "1rem",
-      zIndex: "1000",
-      display: "flex",
-      flexWrap: "wrap",
-      textAlign: "center",
-      justifyContent: "space-between"
-    }}>
+    <>
+      <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />
+      <div ref={modal} className={styles.popup}>
 
       <span style={{
         color: "#39542D",
@@ -191,6 +180,7 @@ export default function FilterPopup({isOpen, onClose, onApply}) {
           }}>{errorMsg}</span>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

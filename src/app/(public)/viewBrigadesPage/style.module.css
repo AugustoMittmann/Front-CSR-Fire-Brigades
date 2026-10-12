@@ -1,0 +1,111 @@
+/* Responsividade desktop da página "Visualizar Brigadas". A página usa estilo
+   inline; estas classes só têm efeito em telas largas (>=1024px), então o
+   layout mobile permanece exatamente igual. */
+
+.container {
+}
+
+/* Título e descrição da página. Base reproduz o estilo inline anterior
+   (mobile idêntico); o desktop padroniza com as demais páginas. */
+.pageTitle {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #39542D;
+  font: normal normal bold 24px/29px "Montserrat";
+  font-family: "Montserrat", sans-serif;
+}
+
+.pageDesc {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #39542D;
+  font: normal normal normal 16px/20px "Montserrat";
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Wrapper das duas colunas (mapa + lista). width:100% é necessário porque o
+   container pai é flex-wrap; no mobile é apenas um bloco full-width (sem
+   efeito visual). */
+.columns {
+  width: 100%;
+}
+
+.mapCol {
+}
+
+.mapWrap {
+}
+
+.listCol {
+}
+
+.list {
+}
+
+@media (min-width: 1024px) {
+  /* Centraliza o conteúdo no --content-max. */
+  .container {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-top: 1.5rem;
+  }
+
+  /* Título/descrição no padrão das demais páginas no desktop. */
+  .pageTitle {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .pageDesc {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Duas colunas: lista à esquerda, mapa à direita. */
+  .columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Lista à esquerda, com rolagem própria. */
+  .listCol {
+    order: 1;
+    flex: 0 0 44%;
+    max-width: 44%;
+    max-height: 72vh;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  /* Mapa à direita, sempre visível, preenchendo a coluna. */
+  .mapCol {
+    order: 2;
+    flex: 1 1 56%;
+    height: 72vh;
+  }
+
+  .mapWrap {
+    height: 100%;
+    margin-top: 0 !important;
+  }
+
+  .mapWrap > div {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* Lista em coluna única (o mapa já ocupa a metade direita). */
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .list > li {
+    margin-bottom: 0 !important;
+  }
+}

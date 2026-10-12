@@ -3,7 +3,7 @@
 import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
-export default function GoogleMap({brigadesCoordinates = []}) {
+export default function GoogleMap({brigadesCoordinates = [], fill = false}) {
   const [zoom, setZoom] = useState(5);
   const [center, setCenter] = useState({lat: -14.235004, lng: -51.92528});
 
@@ -43,7 +43,7 @@ export default function GoogleMap({brigadesCoordinates = []}) {
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY}>
-      <div style={{height: "25rem", width: "25rem"}}>
+      <div style={fill ? {height: "100%", width: "100%"} : {height: "25rem", width: "25rem"}}>
         <Map defaultCenter={center} defaultZoom={zoom} mapId={process.env.NEXT_PUBLIC_MAP_ID} controlSize={1}>
           {brigadesCoordinates.map(({lat, lng}, index) => (
             <AdvancedMarker

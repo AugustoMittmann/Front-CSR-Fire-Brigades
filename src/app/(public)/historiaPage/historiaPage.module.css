@@ -213,3 +213,39 @@
   font-size: 0.95rem;
   color: #263A1E;
 }
+
+@media (min-width: 1024px) {
+  /* Conteúdo centralizado no --content-max. */
+  .content {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    width: 100%;
+    padding: 2.5rem 1.5rem 3.5rem;
+    gap: 2.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  /* Objetivos em grade (eram empilhados). */
+  .objetivosList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  /* Diretoria em grade de 3 colunas. */
+  .diretoriaList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  /* Vídeo não precisa ocupar toda a largura. */
+  .videoPlaceholder {
+    max-width: 860px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}

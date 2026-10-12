@@ -36,3 +36,11 @@
   font-size: 16px;
   font-weight: 600;
 }
+
+@media (min-width: 1024px) {
+  /* Não estica até a largura toda da seção; fica centralizado. */
+  .button {
+    max-width: 340px;
+    margin-inline: auto;
+  }
+}

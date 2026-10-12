@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Button from "../../components/button";
+import styles from "./style.module.css";
 import { api } from "@/lib/api";
 
 /**
@@ -121,8 +122,9 @@ function ProfileInner() {
   };
 
   return (
-    <>
-      <section className='section'>
+    <div className={styles.container}>
+      <div className={styles.leftCol}>
+      <section className={`section ${styles.introCard}`}>
         <div className='title'>
           Acompanhe o Trabalho da {b.name}
         </div>
@@ -182,7 +184,7 @@ function ProfileInner() {
         </div>
       </section>
 
-      <div className='flex bg-green-200 flex-col justify-center align-center gap-3 p-5'>
+      <div className={`flex bg-green-200 flex-col justify-center align-center gap-3 p-5 ${styles.card}`}>
         <h3>Deseja ajudar essa Brigada?</h3>
         {b.pix && (
           <div className='flex flex-col justify-center align-center w-full gap-2'>
@@ -204,8 +206,10 @@ function ProfileInner() {
           />
         </div>
       </div>
+      </div>
 
-      <div className='p-5 bg-gray-200'>
+      <div className={styles.rightCol}>
+      <div className={`p-5 bg-gray-200 ${styles.card}`}>
         <h3 className='mb-2'>Principais Atividades Desenvolvidas</h3>
         {activities.length > 0 ? (
           <div
@@ -215,26 +219,21 @@ function ProfileInner() {
               gap: "0.75rem",
             }}
           >
-            {activities.map((a) => {
-              // Só a palavra-chave (nome). Rótulos longos ocupam a linha inteira.
-              const fullWidth = (a.name?.length ?? 0) > 18;
-              return (
-                <div
-                  key={a.activityId}
-                  style={{
-                    gridColumn: fullWidth ? "1 / -1" : "auto",
-                    background: "var(--white)",
-                    border: "1px solid var(--green-200)",
-                    borderRadius: "10px",
-                    padding: "1rem",
-                    textAlign: "center",
-                    color: "var(--green-600)",
-                  }}
-                >
-                  {a.name}
-                </div>
-              );
-            })}
+            {activities.map((a) => (
+              <div
+                key={a.activityId}
+                style={{
+                  background: "var(--white)",
+                  border: "1px solid var(--green-200)",
+                  borderRadius: "10px",
+                  padding: "1rem",
+                  textAlign: "center",
+                  color: "var(--green-600)",
+                }}
+              >
+                {a.name}
+              </div>
+            ))}
           </div>
         ) : (
           <div style={{ color: "#666" }}>
@@ -244,13 +243,13 @@ function ProfileInner() {
       </div>
 
       {(b.presentation || b.description) && (
-        <div className='bg-white p-5'>
+        <div className={`bg-white p-5 ${styles.card}`}>
           <h3 className='mb-2'>Apresentação</h3>
           <div>{b.presentation || b.description}</div>
         </div>
       )}
 
-      <div className='bg-gray-200 p-5'>
+      <div className={`bg-gray-200 p-5 ${styles.card}`}>
         <h3 className='mb-2'>Sugestão de Doação</h3>
         {items.length > 0 ? (
           <ul className='flex flex-col gap-3'>
@@ -272,7 +271,7 @@ function ProfileInner() {
       </div>
 
       {b.pix && (
-        <div className='flex bg-green-200 flex-col justify-center align-center gap-3 p-5'>
+        <div className={`flex bg-green-200 flex-col justify-center align-center gap-3 p-5 ${styles.helpCardDup}`}>
           <h3>Deseja ajudar essa Brigada?</h3>
           <div className='flex flex-col justify-center align-center w-full gap-2'>
             <span>Para doações monetárias de qualquer valor:</span>
@@ -293,7 +292,8 @@ function ProfileInner() {
           </div>
         </div>
       )}
-    </>
+      </div>
+    </div>
   );
 }
 

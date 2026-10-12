@@ -8,3 +8,61 @@
   text-align: center;
   padding: 0rem 0.6rem;
 }
+
+/* Navegação horizontal do desktop: oculta por padrão (mobile usa o
+   hambúrguer). Só aparece no bloco >=1024px abaixo. */
+.desktopNav {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  /* Mantém o fundo verde full-bleed mas centraliza o conteúdo no
+     --content-max, usando padding lateral que "preenche" as sobras. */
+  .header {
+    height: 4.5rem;
+    padding-inline: max(1.5rem, calc((100% - var(--content-max)) / 2));
+  }
+
+  /* Elementos exclusivos do mobile saem no desktop. */
+  .menuWrap,
+  .helpWrap {
+    display: none;
+  }
+
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .desktopNavLink {
+    color: #ffffff;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .desktopNavLink:hover {
+    opacity: 0.85;
+    border-bottom-color: #84c868;
+  }
+
+  /* "Página Inicial" é redundante com o logo (que já leva pra home); fica
+     oculta em toda a visão desktop. */
+  .navHome {
+    display: none;
+  }
+}
+
+/* Tier intermediário (1024–1199px): com 6 rótulos ainda é apertado, então só
+   comprime o espaçamento. Fonte e rótulos iguais ao desktop pleno. */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .desktopNav {
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,68 @@
+/* Responsividade desktop do perfil da brigada.
+
+   Mobile: os blocos continuam empilhados exatamente como antes — os wrappers
+   .leftCol/.rightCol usam `display: contents`, então somem do layout e os
+   filhos fluem na ordem do DOM (idêntico ao atual).
+
+   Desktop (>=1024px): layout de duas colunas — sidebar à esquerda (imagem,
+   dados e CTA de doação) e conteúdo principal à direita (atividades,
+   apresentação, sugestão de doação). */
+
+.container {
+}
+
+/* Mobile: wrappers transparentes (não afetam o empilhamento). */
+.leftCol,
+.rightCol {
+  display: contents;
+}
+
+.introCard,
+.card,
+.helpCardDup {
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem 3rem;
+  }
+
+  /* Sidebar fixa à esquerda. */
+  .leftCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  /* Conteúdo principal à direita. */
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Todos os blocos viram cards arredondados e consistentes. */
+  .introCard,
+  .card {
+    border-radius: 14px;
+  }
+
+  /* O bloco de intro (dados) ganha fundo branco de card. */
+  .introCard {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  /* A 2ª CTA "Deseja ajudar" é redundante no desktop (já está na sidebar). */
+  .helpCardDup {
+    display: none;
+  }
+}
